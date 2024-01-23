@@ -1,0 +1,65 @@
+############################################
+#create user
+SU_USER="jsp"
+SERV_USER="login"
+MY_USER="mysql"
+TOM_USER="tomcat"
+
+#DATE
+DATE=$(date "+%Y-%m-%d")
+
+#Global variable
+MISO_CONF="${INSTALL}miso_conf/"
+INSTALL="/INSTALL/01.SELINUX_X/"
+MISO_DIR="${DATA}/miso/"
+DATA="/data"
+LOGROTAT="/etc/logroatate.d"
+############################################
+#jdk variable
+JDK_PATH="${INSTALL}jdk"
+JAVA="${DATA}/java"
+JDK="jdk-8u391-linux-x64"
+JTAR="tar.gz"
+JDK_V="jdk1.8.0_391"
+############################################
+#tomcat variable
+#버전 정보 업그레이드시 파일명 수정.
+TOMCAT="apache-tomcat-8.5.95"
+TCOMP=".tar.gz"
+TOMCAT_DIR="tomcat/"
+#TOMCAT_DIR_2="tomcat/"
+TOMCAT_CONF="${DATA}/tomcat/conf/"
+CATALINA="catalina.sh"
+TOMCAT_HOME="/data/tomcat"
+############################################
+#mariadb variable
+MARIADB_PATH="${DATA}/"
+#버전 정보 업그레이드시 파일명 수정.
+MARIA="mariadb-10.3.39-linux-systemd-x86_64"
+MCOMP=".tar.gz"
+#MARIA_DATA="/data/mariadbData/"
+MARIA_TMP="${DATA}/mariadb/tmp/"
+MARIA_HOME="${DATA}/mariadb"
+MY_CONF="my.cnf"
+MYSQLD="/etc/init.d/mysqld"
+MY_COMMAND="${DATA}/mariadb/bin/"
+USR_BIN="/usr/bin/"
+###########################################
+#
+#!!!change package Name!!!
+MISOWAR="miso.core.web-2.0.war"
+MISOWEB="${DATA}/miso/webapps/"
+SYSTEM_PROP="system.properties"
+SYSTEM_PROP_PATH="${DATA}/miso/webapps/WEB-INF/classes/properties/"
+IP="10.52.9.134"                              #install change
+ID="root"
+PW="wlfks@09!@#"
+FILE_PATH="${DATA}/miso/fileUpload"
+DOMAIN=""
+###########################################
+###########################################
+#07.service variable 
+STAT='y'
+CATALINA_OUT="${DATA}/tomcat/logs/catalina.out"
+TOMCAT_SERVICE="/etc/systemd/system/"
+
