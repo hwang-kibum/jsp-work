@@ -14,7 +14,10 @@ case ${DB_USER_STATE} in
 		#echo "${DB_USER}"
 		read -p "input ${DB_USER} password (Upper, Lower, Special Latter, Num recommend: " DB_USER_PW
 		#echo "${DB_USER_PW}"
-		read -p "input ${DB_USER} 1)localhost \n2)remote(%) \n3)Remote select IP(10.10.0.1) :" HOST
+		echo -e "input ${DB_USER} 1)localhost "
+                echo -e "          2)remote(%) "
+                read -p "          3)Remote select IP(10.10.0.1) :" HOST
+
 		case ${HOST} in
 			1)
 				HOST="localhost"
