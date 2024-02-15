@@ -45,7 +45,12 @@ case ${DB_USER_STATE} in
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			else
+   				echo "CREATE user '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
+				echo "CREATE user '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "CREATE user '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
+
+    				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
+				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			fi
 
