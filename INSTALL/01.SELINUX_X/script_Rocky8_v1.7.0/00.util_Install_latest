@@ -3,7 +3,7 @@
 SU_USER="jsp"
 SERV_USER="login"
 MY_USER="mysql"
-TOM_USER="tomcat"
+#TOM_USER="tomcat"
 
 #DATE
 DATE=$(date "+%Y-%m-%d")
