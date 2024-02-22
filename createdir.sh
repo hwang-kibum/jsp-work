@@ -11,5 +11,5 @@ mkdir jdk
 mkdir mariadb
 mkdir miso_pack
 mkdir package #mariadb,apache rpm pakage
-mkdir script_Rocky8.1.7.0
+mkdir script_Rocky8_v1.7.0
 mkdir tomcat
