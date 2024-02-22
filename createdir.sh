@@ -15,4 +15,4 @@ mkdir script_Rocky8_v1.7.0
 mkdir tomcat
 PWD=$(pwd)
 echo $PWD
-cp ../../installScript/Rocky8/* ../INSTALL/01.SELNUX_X/script_Rocky8_v1.7.0
+cp ../../installScript/Rocky8/* ../01.SELNUX_X/script_Rocky8_v1.7.0
