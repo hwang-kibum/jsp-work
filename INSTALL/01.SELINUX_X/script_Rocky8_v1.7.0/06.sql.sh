@@ -67,7 +67,7 @@ case ${DB_USER_STATE} in
 		sed -i "7s/root/${ID}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 		sed -i "8s/wlfks\@09\!\@\#/${PW}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 		sed -i "6s/\/miso/\/${DB_NAME}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
-		sed -i "6s/10.52.9.45/localhost/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
+		sed -i "6s/10.52.251.101/localhost/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 		echo "UPDATE mysql.user SET password=password('Wlfks@09!@#') WHERE user='root';" >> 07.add.sql
 	;;
 esac
