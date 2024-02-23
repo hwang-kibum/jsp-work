@@ -126,13 +126,13 @@ else
 	touch /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.out " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .tar.gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/tomcat &&
+	printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.log " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .tar.gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/tomcat &&
+	printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.txt " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .tar.gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/tomcat &&
+	printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/tomcat &&
 	logrotate -f /etc/logrotate.d/tomcat
 fi
 chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
