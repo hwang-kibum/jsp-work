@@ -4,7 +4,7 @@ echo "" > 07.add.sql
 
 read -p "input DB_NAME : " DB_NAME
 #echo "${DB_NAME}"
-echo "create database \`${DB_NAME}\` /*!40100 COLLATE 'utf8mb4_unicode_ci'*/;" > 07.add.sql
+echo "CREATE DATABAESE \`${DB_NAME}\` /*!40100 COLLATE 'utf8mb4_unicode_ci'*/;" > 07.add.sql
 
 read -p "create user?(y|n) : " DB_USER_STATE
 
@@ -39,20 +39,13 @@ case ${DB_USER_STATE} in
 			then
 				
 				LOOPBACK='127.0.0.1'
- 				echo "CREATE user 'root'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-				echo "CREATE user 'root'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-				echo "CREATE user '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-				echo "CREATE user '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-    
-				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO 'root'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO 'root'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql				
+				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
+				echo "CREATE USER '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
+    			
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			else
-    				echo "CREATE user 'root'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-				echo "CREATE user 'root'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-
-				echo "CREATE user '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
+				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 
     				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO 'root'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO 'root'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql	
