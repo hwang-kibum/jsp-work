@@ -13,7 +13,7 @@ mkdir fileUpload
 
 #cd /install
 cp ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties.bak
-sed -i "6s/10.52.9.45/localhost/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
+sed -i "6s/10.52.251.101/localhost/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 sed -i "7s/root/${ID}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 sed -i "8s/wlfks\@09\!/$PW/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 sed -i '30d' ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
