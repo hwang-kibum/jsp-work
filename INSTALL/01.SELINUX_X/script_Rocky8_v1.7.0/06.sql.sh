@@ -4,7 +4,7 @@ echo "" > 07.add.sql
 
 read -p "input DB_NAME : " DB_NAME
 #echo "${DB_NAME}"
-echo "CREATE DATABAESE \`${DB_NAME}\` /*!40100 COLLATE 'utf8mb4_unicode_ci'*/;" > 07.add.sql
+echo "CREATE DATABASE \`${DB_NAME}\` /*!40100 COLLATE 'utf8mb4_unicode_ci'*/;" > 07.add.sql
 
 read -p "create user?(y|n) : " DB_USER_STATE
 
