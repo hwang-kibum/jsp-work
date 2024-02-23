@@ -148,7 +148,7 @@ else
         touch /etc/logrotate.d/miso &&
         echo -n "${DATA}/tomcat/logs/*.log " >> /etc/logrotate.d/miso &&
         echo "{" >> /etc/logrotate.d/miso &&
-        printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .tar.gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/miso &&
+        printf "\tcopytruncate\n\tweekly\n\trotate 30\n\tcompress\n\tcompressext .gz\n\tmissingok\n\tnotifempty\n\tdateext\n}\n" >> /etc/logrotate.d/miso &&
         logrotate -f /etc/logrotate.d/miso
 fi
 chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
