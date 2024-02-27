@@ -113,7 +113,7 @@ max_allowed_packet = 256M
 innodb_buffer_pool_size = 12G
 skip-host-cache
 skip-name-resolve
-log-error = ${DATA}/mariadb/mariadbData/error.err
+log-error = ${DATA}/mariadb/logs/error.err
 #
 # include all files from the config directory
 #
