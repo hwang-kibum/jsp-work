@@ -161,6 +161,9 @@ chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
 echo "!!! miso logrotate config "
 cat /etc/logrotate.d/miso
 
+chmod 640 /etc/logrotate.d/tomcat 
+chmod 640 /etc/logrotate.d/miso 
+
 logrotate /etc/logrotate.d/tomcat 
 logrotate /etc/logrotate.d/miso 
 
