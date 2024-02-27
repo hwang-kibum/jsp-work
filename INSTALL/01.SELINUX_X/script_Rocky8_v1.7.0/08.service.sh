@@ -151,7 +151,7 @@ then
         echo "find file miso"
 else
         touch /etc/logrotate.d/miso &&
-        echo -n "${DATA}/miso/logs/info/*.log " >> /etc/logrotate.d/miso
+        echo "${DATA}/miso/logs/info/*.log " >> /etc/logrotate.d/miso
 	echo -n "${DATA}/miso/logs/error/*.log " >> /etc/logrotate.d/miso &&
         echo "{" >> /etc/logrotate.d/miso &&
 	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/miso &&
