@@ -115,7 +115,9 @@ systemctl start tomcat
 
 
 
-
+SVDATE=0
+MAXAGE=0
+MAXSIZE=0
 
 #로그 로테이트 설정 
 FIN="/etc/logrotate.d/tomcat"
@@ -123,6 +125,9 @@ if [ -e $FIN ]
 then
 	echo "find file tomcat"
 else
+	read -p "logs saving date:  >" SVDATE
+ 	read -p "logs Max Age : >" MAXAGE
+  	read -p "logs Max Size : >" MAXSIZE
 	touch /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.out " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
@@ -146,7 +151,8 @@ then
         echo "find file miso"
 else
         touch /etc/logrotate.d/miso &&
-        echo -n "${DATA}/tomcat/logs/*.log " >> /etc/logrotate.d/miso &&
+        echo -n "${DATA}/miso/logs/info/*.log " >> /etc/logrotate.d/miso &&
+	echo -n "${DATA}/miso/logs/error/*.log " >> /etc/logrotate.d/miso &&
         echo "{" >> /etc/logrotate.d/miso &&
         printf "t\rotate 190\n\tcreate\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage 2\n\tmaxsize 100M\n" >> /etc/logrotate.d/miso &&
         logrotate -f /etc/logrotate.d/miso
