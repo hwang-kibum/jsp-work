@@ -131,13 +131,13 @@ else
 	touch /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.out " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\trotate ${SVDATE}\n\tcreate\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.log " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\trotate ${SVDATE}\n\tcreate\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.txt " >> /etc/logrotate.d/tomcat &&
 	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\trotate ${SVDATE}\n\tcreate\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
 	logrotate -f /etc/logrotate.d/tomcat
 fi
 chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
@@ -154,7 +154,7 @@ else
         echo -n "${DATA}/miso/logs/info/*.log " >> /etc/logrotate.d/miso
 	echo -n "${DATA}/miso/logs/error/*.log " >> /etc/logrotate.d/miso &&
         echo "{" >> /etc/logrotate.d/miso &&
-	printf "\trotate ${SVDATE}\n\tcreate\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/miso &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/miso &&
         logrotate -f /etc/logrotate.d/miso
 fi
 chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
