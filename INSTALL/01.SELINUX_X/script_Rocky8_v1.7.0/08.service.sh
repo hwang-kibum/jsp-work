@@ -125,8 +125,8 @@ if [ -e $FIN ]
 then
 	echo "find file tomcat"
 else
-	read -p "logs logrotate :  >" SVDATE
- 	read -p "logs Max Age : >" MAXAGE
+	read -p "logs logrotate (Recommand: 1000):  >" SVDATE
+ 	read -p "logs Max Age (Recommand: 190): >" MAXAGE
   	read -p "logs Max Size (INPUTDATA Megabyte) Recommand(100): >" MAXSIZE
 	touch /etc/logrotate.d/tomcat &&
 	echo -n "${DATA}/tomcat/logs/*.out " >> /etc/logrotate.d/tomcat &&
