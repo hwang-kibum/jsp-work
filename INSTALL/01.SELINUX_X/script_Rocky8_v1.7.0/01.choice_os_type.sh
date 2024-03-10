@@ -120,6 +120,10 @@ else
 		echo "/home directory exist..."
 	fi
 fi
+mkdir -p ${DATA}/logs/miso
+mkdir ${TOMCAT_LOGS}
+mkdir ${MARIADB_LOGS}
+mkdir ${DATA}/conf-set
 
 
 exit;
