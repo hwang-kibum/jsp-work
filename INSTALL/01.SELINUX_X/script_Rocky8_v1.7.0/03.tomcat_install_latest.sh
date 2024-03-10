@@ -41,6 +41,12 @@ sed -i '125 i\JAVA_HOME="'"${DATA}"'/java/"' ${DATA}/tomcat/bin/catalina.sh
 
 ls -ahil ${DATA}/tomcat/bin/catalina.sh
 
+
+sed -i 's|\${catalina.base}/logs|'${DATA}'/logs/tomcat|g' ${DATA}/logs/tomcat/conf/logging.properties 
+sed -i 's|logs|'${DATA}'/logs/tomcat|g' server.xml
+sed -i 's|txt|log|g' server.xml
+
+
 echo " "
 echo "!!!catalina.sh setting complit"
 echo "!!!tomcat config complit"
