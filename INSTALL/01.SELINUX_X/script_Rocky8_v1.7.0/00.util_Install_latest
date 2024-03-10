@@ -12,7 +12,7 @@ DATE=$(date "+%Y-%m-%d")
 MISO_CONF="${INSTALL}miso_conf/"
 INSTALL="/INSTALL/01.SELINUX_X/"
 MISO_DIR="${DATA}/miso/"
-LOGS='${DATA}/logs/
+LOGS='${DATA}/logs/'
 DATA="/data"
 LOGROTAT="/etc/logroatate.d"
 ############################################
@@ -33,6 +33,7 @@ TOMCAT_CONF="${DATA}/tomcat/conf/"
 CATALINA="catalina.sh"
 TOMCAT_HOME="/data/tomcat"
 TOMCAT_LOGS='${DATA}/logs/tomcat'
+TOMCAT_SET='/data/miso/config-set/tomcat'
 ############################################
 #mariadb variable
 MARIADB_PATH="${DATA}/"
