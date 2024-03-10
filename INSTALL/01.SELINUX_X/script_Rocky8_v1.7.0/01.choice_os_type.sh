@@ -123,7 +123,7 @@ fi
 mkdir -p ${DATA}/logs/miso
 mkdir ${TOMCAT_LOGS}
 mkdir ${MARIADB_LOGS}
-mkdir ${DATA}/conf-set
+mkdir ${DATA}/config-set
 
 
 exit;
