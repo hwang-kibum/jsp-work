@@ -33,7 +33,7 @@ TOMCAT_CONF="${DATA}/tomcat/conf/"
 CATALINA="catalina.sh"
 TOMCAT_HOME="/data/tomcat"
 TOMCAT_LOGS='${DATA}/logs/tomcat'
-TOMCAT_SET='/data/miso/config-set/tomcat'
+TOMCAT_SET='${DATA}/miso/config-set/tomcat'
 ############################################
 #mariadb variable
 MARIADB_PATH="${DATA}/"
@@ -48,6 +48,7 @@ MYSQLD="/etc/init.d/mysqld"
 MY_COMMAND="${DATA}/mariadb/bin/"
 USR_BIN="/usr/bin/"
 MARIADB_LOGS='${DATA}/logs/mariadb'
+MARIADB_SET='${DATA}/miso/config-set/mariadb'
 ###########################################
 #
 #!!!change package Name!!!
