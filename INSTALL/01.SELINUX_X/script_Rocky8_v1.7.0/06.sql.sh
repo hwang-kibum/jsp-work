@@ -39,17 +39,15 @@ case ${DB_USER_STATE} in
 			then
 				
 				LOOPBACK='127.0.0.1'
+    				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');"
 				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
     			
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			else
+   				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');"
 				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-
-    				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO 'root'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
-				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO 'root'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql	
-
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			fi
 
@@ -68,7 +66,7 @@ case ${DB_USER_STATE} in
 		sed -i "8s/wlfks\@09\!\@\#/${PW}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 		sed -i "6s/\/miso/\/${DB_NAME}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 		sed -i "6s/10.52.251.101/localhost/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
-		echo "UPDATE mysql.user SET password=password('Wlfks@09!@#') WHERE user='root';" >> 07.add.sql
+
 	;;
 esac
 
