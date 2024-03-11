@@ -106,6 +106,9 @@ else
 fi
 echo "tomcat.servie config"
 cat ${TOMCAT_SERVICE}tomcat.service
+chown ${SERV_USER}:${SERV_USER} -R ${TOMCAT_LOGS}
+chown ${SERV_USER}:${SERV_USER} -R ${LOGS}miso
+
 
 ln -s ${TOMCAT_SERVICE}tomcat.service /usr/lib/systemd/system/
 systemctl daemon-reload
