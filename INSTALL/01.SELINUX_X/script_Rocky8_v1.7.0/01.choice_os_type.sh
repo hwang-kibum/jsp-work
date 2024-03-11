@@ -129,7 +129,7 @@ echo "${DATA}/miso/config-set"
 
 mkdir -p "${LOGS}miso"
 mkdir "${TOMCAT_LOGS}"
-mkdir "${TOMCAT_SET}"
+mkdir -p "${TOMCAT_SET}"
 mkdir "${MARIADB_LOGS}"
 mkdir "${MARIADB_SET}"
 mkdir -p "${DATA}/miso/config-set"
