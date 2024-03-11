@@ -124,6 +124,7 @@ sed -i '/^\s*$/d' ${MARIADB_HOME}/support-files/mariadb.logrotate
 
 sed -i '1d' ${MARIADB_HOME}/support-files/mariadb.logrotate 
 sed -i '1i '${DATA}'/logs/mariadb/*.log {' ${MARIADB_HOME}/support-files/mariadb.logrotate
+sed -i 's|/usr/local/mysql|/data/mariadb|' ${MAIRADB_HOME}/support-files/mariadb.logrotate
 
 cp -arp ${MARIADB_HOME}/support-files/mariadb.logrotate ${MARIDB_SET}/
 
