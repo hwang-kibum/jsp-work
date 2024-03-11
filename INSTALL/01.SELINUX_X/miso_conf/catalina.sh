@@ -124,6 +124,7 @@
 # -----------------------------------------------------------------------------
 JAVA_HOME=/data/java/
 JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m -XX:NewSize=400m -XX:MaxNewSize=400m -XX:SurvivorRatio=4"
+CATALINA_OUT="/data/logs/tomcat/catalina.out"
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
 darwin=false
