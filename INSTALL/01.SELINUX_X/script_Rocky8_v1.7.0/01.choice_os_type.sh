@@ -1,7 +1,6 @@
 #!/bin/bash
 source 00.util_Install_latest
 
-
 CURRENT_SEL=$(getenforce)
 CONF_SEL=$(cat /etc/selinux/config | grep '^SELINUX=' | cut -d '=' -f2 )
 if [ "Enforcing" == ${CURRENT_SEL} ];
@@ -120,10 +119,20 @@ else
 		echo "/home directory exist..."
 	fi
 fi
-mkdir -p ${DATA}/logs/miso
-mkdir ${TOMCAT_LOGS}
-mkdir ${MARIADB_LOGS}
-mkdir ${DATA}/config-set
+
+echo "${DATA}"
+echo "${LOGS}"
+echo "${TOMCAT_LOGS}"
+echo "${MARIADB_LOGS}"
+echo "${DATA}/miso/config-set"
+
+
+mkdir -p "${LOGS}miso"
+mkdir "${TOMCAT_LOGS}"
+mkdir "${TOMCAT_SET}"
+mkdir "${MARIADB_LOGS}"
+mkdir "${MARIADB_SET}"
+mkdir -p "${DATA}/miso/config-set"
 
 
 exit;

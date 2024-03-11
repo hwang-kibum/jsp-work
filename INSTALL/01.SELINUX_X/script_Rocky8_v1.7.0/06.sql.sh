@@ -39,7 +39,7 @@ case ${DB_USER_STATE} in
 			then
 				
 				LOOPBACK='127.0.0.1'
-    				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');"
+    				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
     			
@@ -56,8 +56,8 @@ case ${DB_USER_STATE} in
 				
 		sed -i "7s/root/${DB_USER}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 		sed -i "8s/wlfks\@09\!\@\#/${DB_USER_PW}/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
-		echo "UPDATE mysql.user SET password=password('Wlfks@09!@#') WHERE user='root';" >> 07.add.sql
-		echo "UPDATE mysql.user SET password=password('${DB_USER_PW}') WHERE user='${DB_USER}';" >> 07.add.sql
+		#echo "UPDATE mysql.user SET password=password('Wlfks@09!@#') WHERE user='root';" >> 07.add.sql
+		#echo "UPDATE mysql.user SET password=password('${DB_USER_PW}') WHERE user='${DB_USER}';" >> 07.add.sql
 		sed -i "6s/10.52.9.45/localhost/" ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 	;;
 	*)

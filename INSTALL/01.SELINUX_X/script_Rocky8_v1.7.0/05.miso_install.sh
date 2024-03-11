@@ -91,7 +91,7 @@ LOG_OUTPUT_TYPE=${LOG_TYPE}
 LOG_HOME=${LOG_PATH}" > ${DATA}/miso/webapps/WEB-INF/classes/logback.properties
 
 #세션 타입아웃 10으로 수정.
-sed -i 's/<session-timeout>30<\/session-timeout>/<session-timeout>10<\/session-timeout>/g' ${DATA}/miso/webapps/web.xml
+sed -i 's/<session-timeout>30<\/session-timeout>/<session-timeout>10<\/session-timeout>/g' ${DATA}/miso/webapps/WEB-INF/web.xml
 
 
 

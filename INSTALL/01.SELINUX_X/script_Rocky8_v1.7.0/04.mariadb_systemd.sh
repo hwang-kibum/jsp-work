@@ -74,8 +74,8 @@ PrivateTmp=false
 TimeoutStartSec=0
 TimeoutStopSec=900
 LimitNOFILE=32768" >> ${INSTALL}miso_conf/mariadb.service 
-cp ${INSTALL}miso_conf/mariadb.service ${DATA}/miso/config-set/
-ln -s ${DATA}/miso/config-set /usr/lib/systemd/system/
+cp ${INSTALL}miso_conf/mariadb.service ${MARIADB_SET}
+ln -s ${MARIADB_SET}/mariadb.service /usr/lib/systemd/system/
 systemctl daemon-reexec
 systemctl daemon-reload
 systemctl enable mariadb
@@ -136,6 +136,9 @@ ls -ahil ${DATA}/mariadb/bin/mysqldump
 ls -ahil ${DATA}/mariadb/bin/mysqladmin
 
 chown -R mysql:mysql ${DATA}/mariadb
+
+#로그파일 권한
+chown mysql:mysql -R ${MARIADB_LOGS}
 
 ps -ef | grep mariadb
 sync;sync;sync;

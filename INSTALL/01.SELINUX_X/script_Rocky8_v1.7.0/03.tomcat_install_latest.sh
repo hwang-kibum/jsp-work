@@ -42,9 +42,9 @@ sed -i '125 i\JAVA_HOME="'"${DATA}"'/java/"' ${DATA}/tomcat/bin/catalina.sh
 ls -ahil ${DATA}/tomcat/bin/catalina.sh
 
 #log경로 변경
-sed -i 's|\${catalina.base}/logs|'${DATA}'/logs/tomcat|g' ${DATA}/logs/tomcat/conf/logging.properties 
-sed -i 's|logs|'${DATA}'/logs/tomcat|g' server.xml
-sed -i 's|txt|log|g' server.xml
+sed -i 's|\${catalina.base}/logs|'${DATA}'/logs/tomcat|g' ${DATA}/tomcat/conf/logging.properties 
+sed -i 's|logs|'${DATA}'/logs/tomcat|g' ${DATA}/tomcat/conf/server.xml
+sed -i 's|txt|log|g' ${DATA}/tomcat/conf/server.xml
 
 
 echo " "

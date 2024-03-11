@@ -15,7 +15,7 @@ read -p "Default Port Setting SSH:22 / HTTP:8080 / HTTPS:8443 / DB:3306 (y|n)? >
 case $STAT in 
 	y)
 	firewall-cmd --permanent --zone=public --add-port=$HTTP/tcp
-	firewall-cmd --permanent --zone=public --add-port=$DB_PORT/tcp
+	#firewall-cmd --permanent --zone=public --add-port=$DB_PORT/tcp
 	firewall-cmd --permanent --zone=public --add-port=$HTTPS/tcp
 	firewall-cmd --reload
 	firewall-cmd --list-all
