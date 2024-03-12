@@ -115,7 +115,9 @@ chown ${SERV_USER}:${SERV_USER} -R ${TOMCAT_SET}
 
 
 
-ln -s ${TOMCAT_SET}/tomcat.service /usr/lib/systemd/system/
+#ln -s ${TOMCAT_SET}/tomcat.service /usr/lib/systemd/system/
+cp ${TOMCAT_SET}/tomcat.service /usr/lib/systemd/system 
+
 systemctl daemon-reload
 systemctl enable tomcat
 systemctl start tomcat
