@@ -86,6 +86,7 @@ chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/fileUpload -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/editorImage -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/webapps -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/miso 
+chown ${SERV_USER}:${SERV_USER} ${DATA}/logs
 
 
 
