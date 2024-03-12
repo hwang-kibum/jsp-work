@@ -135,7 +135,7 @@ else
   	read -p "logs Max Size (INPUTDATA Megabyte) Recommand(100): >" MAXSIZE
 	touch ${TOMCAT_SET}/tomcat.logrotate &&
 	echo -n "${TOMCAT_SET}/*.out " >> ${TOMCAT_SET}/tomcat.logrotate &&
-	echo "{" >> /etc/logrotate.d/tomcat.logrotate &&
+	echo "{" >> ${TOMCAT_SET}/tomcat.logrotate &&
 	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> ${TOMCAT_SET}/tomcat.logrotate &&
 	echo -n "${DATA}/tomcat/logs/*.log " >> ${TOMCAT_SET}/tomcat.logrotate &&
 	echo "{" >> ${TOMCAT_SET}/tomcat.logrotate &&
