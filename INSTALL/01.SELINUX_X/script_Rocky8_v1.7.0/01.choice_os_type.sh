@@ -120,11 +120,7 @@ else
 	fi
 fi
 
-echo "${DATA}"
-echo "${LOGS}"
-echo "${TOMCAT_LOGS}"
-echo "${MARIADB_LOGS}"
-echo "${DATA}/miso/config-set"
+
 
 
 mkdir -p "${LOGS}miso"
