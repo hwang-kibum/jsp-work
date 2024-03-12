@@ -40,7 +40,7 @@ case ${DB_USER_STATE} in
 				
 				LOOPBACK='127.0.0.1'
     				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');" >> 07.add.sql
-				echo "ALTER USER `root`@`${HOST}` IDENTIFIED VIA MYSQL_NATIVE_PASSWORD USING PASSWORD("${DB_USER_PW}");" >> 07.add.sql
+				echo "ALTER USER `root`@`${HOST}` IDENTIFIED VIA MYSQL_NATIVE_PASSWORD USING PASSWORD('${DB_USER_PW}');" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
     			
@@ -48,7 +48,7 @@ case ${DB_USER_STATE} in
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${LOOPBACK}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			else
    				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');" >> 07.add.sql
-       				echo "ALTER USER `root`@`${HOST}` IDENTIFIED VIA MYSQL_NATIVE_PASSWORD USING PASSWORD("${DB_USER_PW}");" >> 07.add.sql
+       				echo "ALTER USER `root`@`${HOST}` IDENTIFIED VIA MYSQL_NATIVE_PASSWORD USING PASSWORD('${DB_USER_PW}');" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 				echo "GRANT ${GRANTS} PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
 			fi
