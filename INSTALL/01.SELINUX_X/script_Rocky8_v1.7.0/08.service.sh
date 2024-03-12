@@ -119,6 +119,7 @@ ln -s ${TOMCAT_SET}/tomcat.service /usr/lib/systemd/system/
 systemctl daemon-reload
 systemctl enable tomcat
 systemctl start tomcat
+systemctl is-enabled tomcat
 
 
 
