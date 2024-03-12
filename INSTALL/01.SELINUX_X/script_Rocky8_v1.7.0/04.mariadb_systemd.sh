@@ -104,6 +104,7 @@ END
 systemctl daemon-reexec
 systemctl daemon-reload
 systemctl enable mariadb
+systemctl is-enabled mariadb
 
 
 
