@@ -34,26 +34,26 @@ echo "Mysql install db"
 cd ${MARIA_HOME}/scripts;./mysql_install_db --user=mysql --basedir=${DATA}/mariadb --datadir=$DATA/mariadb/mariadbData
 
 # mariadb.service 원본 복사 {
-cp -arp ${MARIADB_HOME}/support-files/systemd/mariadb.service ${MARIADB_HOME}/support-files/systemd/mariadb.service.origin
+cp -arp ${MARIA_HOME}/support-files/systemd/mariadb.service ${MARIA_HOME}/support-files/systemd/mariadb.service.origin
 
 
   # 주석제거 
-sed -i '/^#/d' ${MARIADB_HOME}/support-files/systemd/mariadb.service 
+sed -i '/^#/d' ${MARIA_HOME}/support-files/systemd/mariadb.service 
 
   # 공백제거
-sed -i '/^\s*$/d' ${MARIADB_HOME}/support-files/systemd/mariadb.service 
+sed -i '/^\s*$/d' ${MARIA_HOME}/support-files/systemd/mariadb.service 
 
   # ProtectHome=true-> false
-sed -i 's/ProtectHome=true/ProtectHome=false/' sed -i 's/ProtectHome=true/ProtectHome=false/' ${MARIADB_HOME}/support-files/systemd/mariadb.service
+sed -i 's/ProtectHome=true/ProtectHome=false/' sed -i 's/ProtectHome=true/ProtectHome=false/' ${MARIA_HOME}/support-files/systemd/mariadb.service
   # 경로 변경
-sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIADB_HOME}/support-files/systemd/mariadb.service
-sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIADB_HOME}/support-files/systemd/mariadb.service
-sed -i 's|/data/mariadb/data|/data/mariadb/mariadbData|' ${MARIADB_HOME}/support-files/systemd/mariadb.service
-sed -i 's|/data/mariadb/bin/mariadbd|/data/mariadb/bin/mariadbd-safe|' ${MARIADB_HOME}/support-files/systemd/mariadb.service
-sed -i 's|TimeoutStartSec=900|TimeoutStartSec=0|' ${MARIADB_HOME}/support-files/systemd/mariadb.service
+sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|/data/mariadb/data|/data/mariadb/mariadbData|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|/data/mariadb/bin/mariadbd|/data/mariadb/bin/mariadbd-safe|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|TimeoutStartSec=900|TimeoutStartSec=0|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 
-cp -arp ${MARIADB_HOME}/support-files/systemd/mariadb.service ${MARIADB_SET}
-ln -s ${MARIADB_SET}/mariadb.service /usr/lib/systemd/system/
+cp -arp ${MARIA_HOME}/support-files/systemd/mariadb.service ${MARIA_SET}
+ln -s ${MARIA_SET}/mariadb.service /usr/lib/systemd/system/
 
 :<<END
 echo "[Unit]
@@ -112,21 +112,21 @@ sed -i '27aprint_default="'${DATA}'/mariadb/bin/my_print_defaults"' ${INSTALL}mi
 cp ${INSTALL}miso_conf/galera_recovery ${MY_COMMAND}
 END
 #galera_recovery 수정.
-sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIADB_HOME}/bin/galera_recovery
+sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/bin/galera_recovery
 
 
 #mariadb.logrotate 원본 백업
-cp ${MARIADB_HOME}/support-files/mariadb.logrotate ${MARIADB_HOME}/support-files/mariadb.logrotate.origin
+cp ${MARIA_HOME}/support-files/mariadb.logrotate ${MARIA_HOME}/support-files/mariadb.logrotate.origin
   #주석제거
-sed -i '/^#/d' ${MARIADB_HOME}/support-files/mariadb.logrotate
+sed -i '/^#/d' ${MARIA_HOME}/support-files/mariadb.logrotate
   # 공백제거
-sed -i '/^\s*$/d' ${MARIADB_HOME}/support-files/mariadb.logrotate 
+sed -i '/^\s*$/d' ${MARIA_HOME}/support-files/mariadb.logrotate 
 
-sed -i '1d' ${MARIADB_HOME}/support-files/mariadb.logrotate 
-sed -i '1i '${DATA}'/logs/mariadb/*.log {' ${MARIADB_HOME}/support-files/mariadb.logrotate
-sed -i 's|/usr/local/mysql|/data/mariadb|' ${MAIRADB_HOME}/support-files/mariadb.logrotate
+sed -i '1d' ${MARIA_HOME}/support-files/mariadb.logrotate 
+sed -i '1i '${DATA}'/logs/mariadb/*.log {' ${MARIA_HOME}/support-files/mariadb.logrotate
+sed -i 's|/usr/local/mysql|/data/mariadb|' ${MAIRA_HOME}/support-files/mariadb.logrotate
 
-cp -arp ${MARIADB_HOME}/support-files/mariadb.logrotate ${MARIDB_SET}/
+cp -arp ${MARIA_HOME}/support-files/mariadb.logrotate ${MARIDB_SET}/
 
 
 
