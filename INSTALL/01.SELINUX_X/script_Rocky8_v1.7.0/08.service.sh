@@ -85,6 +85,8 @@ chown ${SERV_USER}:${SERV_USER} ${DATA}/tomcat -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/fileUpload -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/editorImage -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/webapps -R
+chown ${SERV_USER}:${SERV_USER} ${DATA}/miso 
+
 
 
 FIN="/usr/lib/systemd/system/tomcat.service"
