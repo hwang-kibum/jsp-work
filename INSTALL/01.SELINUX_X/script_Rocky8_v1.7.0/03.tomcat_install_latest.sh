@@ -47,7 +47,7 @@ chmod 755 ${DATA}/tomcat/bin/catalina.sh
 sed -i '125d' ${DATA}/tomcat/bin/catalina.sh
 sed -i '125 i\JAVA_HOME="'"${DATA}"'/java/"' ${DATA}/tomcat/bin/catalina.sh
 sed -i '126 i\JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m -XX:NewSize=400m -XX:MaxNewSize=400m -XX:SurvivorRatio=4"' ${DATA}/tomcat/bin/catalina.sh
-sed -i '127 i\CATALINA_OUT="'"${DATA}"'/logs/catalina.out"' ${DATA}/tomcat/bin/catalina.sh
+sed -i '127 i\CATALINA_OUT="'"${DATA}"'/tomcat/logs/catalina.out"' ${DATA}/tomcat/bin/catalina.sh
 ls -ahil ${DATA}/tomcat/bin/catalina.sh
 
 #log경로 변경
