@@ -81,7 +81,7 @@ fi
 
 
 read -p "log type select (recommand : file | console): " LOG_TYPE
-read -p "log path (recommand : /data/miso/logs) : " LOG_PATH
+read -p "log path (recommand : /data/logs/miso) : " LOG_PATH
 echo "" > ${DATA}/miso/webapps/WEB-INF/classes/logback.properties
 echo "# log Level value=DEBUG or INFO or ERROR
 LOG_LEVEL=DEBUG
