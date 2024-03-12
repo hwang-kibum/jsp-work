@@ -162,7 +162,7 @@ log-error = ${MARIADB_LOGS}/error.err
 #
 #!includedir /etc/my.cnf.d" > ${MARIADB_SET}/my.cnf 
 
-cp -arpv ${MARIADB_SET}/my.cnf  /etc
+ln -s ${MARIADB_SET}/my.cnf  /etc
 
 #소유권 변경
 chown mysql:${SERV_USER} /etc/my.cnf
