@@ -54,9 +54,9 @@ sed -i 's|TimeoutStartSec=900|TimeoutStartSec=0|' ${MARIA_HOME}/support-files/sy
 
 
 cp -arp ${MARIA_HOME}/support-files/systemd/mariadb.service ${MARIADB_SET}
-chown mysql:mysql -R ${MARIADB_SET}/
-ls -ahil ${MARIADB_SET}
-ln -s ${MARIADB_SET}/mariadb.service /usr/lib/systemd/system/
+#chown mysql:mysql -R ${MARIADB_SET}/
+#ls -ahil ${MARIADB_SET}
+cp ${MARIADB_SET}/mariadb.service /usr/lib/systemd/system/
 
 :<<END
 echo "[Unit]
