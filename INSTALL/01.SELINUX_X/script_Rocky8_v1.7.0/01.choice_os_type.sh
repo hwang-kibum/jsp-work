@@ -130,6 +130,7 @@ mkdir "${MARIADB_LOGS}"
 mkdir "${MARIADB_SET}"
 mkdir -p "${DATA}/miso/config-set"
 mkdir "${DATA}/backup"
+chown login:login ${DATA}/backup -R
 
 
 exit;
