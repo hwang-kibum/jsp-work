@@ -88,31 +88,33 @@ FIN="/usr/lib/systemd/system/tomcat.service"
 if [ -e $FIN ]; then
 	echo "find file! tomcat.service" 
 else
-	touch ${TOMCAT_SERVICE}tomcat.service &&
-	echo "[Unit]" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "Description=tomcat 8" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "After=network.target syslog.target" >> ${TOMCAT_SERVICE}tomcat.service &&
-  	echo -e "\n" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "[Service]" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "Type=forking" >> ${TOMCAT_SERVICE}tomcat.service && 
-	echo "User=${SERV_USER}" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "Group=${SERV_USER}" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "ExecStart=${DATA}/tomcat/bin/startup.sh start" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "ExecStop=${DATA}/tomcat/bin/shutdown.sh stop" >> ${TOMCAT_SERVICE}tomcat.service &&
-    echo -e "\n" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "[Install]" >> ${TOMCAT_SERVICE}tomcat.service &&
-	echo "WantedBy=multi-user.target" >> ${TOMCAT_SERVICE}tomcat.service
+	touch ${TOMCAT_SET}/tomcat.service &&
+	echo "[Unit]" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "Description=tomcat 8" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "After=network.target syslog.target" >> ${TOMCAT_SET}/tomcat.service &&
+  	echo -e "\n" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "[Service]" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "Type=forking" >> ${TOMCAT_SET}/tomcat.service && 
+	echo "User=${SERV_USER}" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "Group=${SERV_USER}" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "ExecStart=${DATA}/tomcat/bin/startup.sh start" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "ExecStop=${DATA}/tomcat/bin/shutdown.sh stop" >> ${TOMCAT_SET}/tomcat.service &&
+    	echo -e "\n" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "[Install]" >> ${TOMCAT_SET}/tomcat.service &&
+	echo "WantedBy=multi-user.target" >> ${TOMCAT_SET}/tomcat.service
 
 fi
 echo "tomcat.servie config"
-cat ${TOMCAT_SERVICE}tomcat.service
+cat ${TOMCAT_SET}/tomcat.service
+
+
+
 chown ${SERV_USER}:${SERV_USER} -R ${TOMCAT_LOGS}
 chown ${SERV_USER}:${SERV_USER} -R ${LOGS}miso
 
 
-ln -s ${TOMCAT_SERVICE}tomcat.service /usr/lib/systemd/system/
+ln -s ${TOMCAT_SET}/tomcat.service /usr/lib/systemd/system/
 systemctl daemon-reload
-
 systemctl enable tomcat
 systemctl start tomcat
 
