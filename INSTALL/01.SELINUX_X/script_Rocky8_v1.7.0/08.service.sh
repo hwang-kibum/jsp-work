@@ -111,6 +111,8 @@ cat ${TOMCAT_SET}/tomcat.service
 
 chown ${SERV_USER}:${SERV_USER} -R ${TOMCAT_LOGS}
 chown ${SERV_USER}:${SERV_USER} -R ${LOGS}miso
+chown ${SERV_USER}:${SERV_USER} -R ${TOMCAT_SET}
+
 
 
 ln -s ${TOMCAT_SET}/tomcat.service /usr/lib/systemd/system/
@@ -174,6 +176,9 @@ chmod 640 /etc/logrotate.d/tomcat.logrotate
 
 logrotate /etc/logrotate.d/tomcat.logrotate
 #logrotate /etc/logrotate.d/miso 
+
+
+#
 
 
 
