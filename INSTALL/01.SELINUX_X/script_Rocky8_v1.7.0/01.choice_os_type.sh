@@ -129,6 +129,7 @@ mkdir -p "${TOMCAT_SET}"
 mkdir "${MARIADB_LOGS}"
 mkdir "${MARIADB_SET}"
 mkdir -p "${DATA}/miso/config-set"
+mkdir "${DATA}/backup"
 
 
 exit;
