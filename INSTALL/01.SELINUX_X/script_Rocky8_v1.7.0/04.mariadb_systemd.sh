@@ -130,11 +130,11 @@ sed -i '1d' ${MARIA_HOME}/support-files/mariadb.logrotate
 sed -i '1i '${DATA}'/logs/mariadb/*.log {' ${MARIA_HOME}/support-files/mariadb.logrotate
 sed -i 's|/usr/local/mysql|/data/mariadb|' ${MAIRA_HOME}/support-files/mariadb.logrotate
 
-cp -arp ${MARIA_HOME}/support-files/mariadb.logrotate ${MARIDB_SET}/
+cp -arp ${MARIA_HOME}/support-files/mariadb.logrotate ${MARIADB_SET}/
 
 
 
-cp ${INSTALL}miso_conf/mysql-log-retate ${LOGROTATE}
+#cp ${INSTALL}miso_conf/mysql-log-retate ${LOGROTATE}
 
 echo "#
 # This group is read both both by the client and the server
