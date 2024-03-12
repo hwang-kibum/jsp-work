@@ -30,6 +30,10 @@ case ${DB_USER_STATE} in
 			;;
 			*)
 				echo "Invalid answer"
+				echo "Invalid answer"
+    				echo "Invalid answer"
+				echo "Restart 06.sql.sh "
+    				exit
 			;;
 		esac
 		#echo "${HOST}"
