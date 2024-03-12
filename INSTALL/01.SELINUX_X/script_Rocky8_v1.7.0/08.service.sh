@@ -125,7 +125,7 @@ MAXAGE=0
 MAXSIZE=0
 
 #로그 로테이트 설정 
-FIN="/etc/logrotate.d/tomcat"
+FIN="/etc/logrotate.d/tomcat.logrotate"
 if [ -e $FIN ]
 then
 	echo "find file tomcat"
@@ -133,35 +133,38 @@ else
 	read -p "logs logrotate (Recommand: 1000):  >" SVDATE
  	read -p "logs Max Age (Recommand: 190): >" MAXAGE
   	read -p "logs Max Size (INPUTDATA Megabyte) Recommand(100): >" MAXSIZE
-	touch /etc/logrotate.d/tomcat &&
-	echo -n "${DATA}/tomcat/logs/*.out " >> /etc/logrotate.d/tomcat &&
-	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
-	echo -n "${DATA}/tomcat/logs/*.log " >> /etc/logrotate.d/tomcat &&
-	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
-	echo -n "${DATA}/tomcat/logs/*.txt " >> /etc/logrotate.d/tomcat &&
-	echo "{" >> /etc/logrotate.d/tomcat &&
-	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/tomcat &&
-	logrotate -f /etc/logrotate.d/tomcat
+	touch ${TOMCAT_SET}/tomcat.logrotate &&
+	echo -n "${TOMCAT_SET}/*.out " >> ${TOMCAT_SET}/tomcat.logrotate &&
+	echo "{" >> /etc/logrotate.d/tomcat.logrotate &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> ${TOMCAT_SET}/tomcat.logrotate &&
+	echo -n "${DATA}/tomcat/logs/*.log " >> ${TOMCAT_SET}/tomcat.logrotate &&
+	echo "{" >> ${TOMCAT_SET}/tomcat.logrotate &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> ${TOMCAT_SET}/tomcat.logrotate &&
+	echo -n "${DATA}/tomcat/logs/*.txt " >> ${TOMCAT_SET}/tomcat.logrotate &&
+	echo "{" >> ${TOMCAT_SET}/tomcat.logrotate &&
+	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> ${TOMCAT_SET}/tomcat.logrotate &&
+ 	ln -s ${TOMCAT_SET}/tomcat.logrotate /etc/logrotate.d/
+	logrotate -f /etc/logrotate.d/tomcat.logrotate
 fi
 chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
 echo "!!! tomcat logrotate config "
 cat /etc/logrotate.d/tomcat
 
-
-FIN="/etc/logrotate.d/miso"
+:<<END
+FIN="/etc/logrotate.d/miso.logrotate"
 if [ -e $FIN ]
 then
         echo "find file miso"
 else
         touch /etc/logrotate.d/miso &&
-        echo "${DATA}/miso/logs/info/*.log " >> /etc/logrotate.d/miso
-	echo -n "${DATA}/miso/logs/error/*.log " >> /etc/logrotate.d/miso &&
+        echo "${DATA}/logs/miso/info/*.log " >> /etc/logrotate.d/miso
+	echo -n "${DATA}/logs/miso/error/*.log " >> /etc/logrotate.d/miso &&
         echo "{" >> /etc/logrotate.d/miso &&
 	printf "\trotate ${SVDATE}\n\tcreate 640 ${SERV_USER}\n\tcopytruncate\n\tdaily\n\tcompress\n\tcompressext .gz\n\tnotifempty\n\tdateext\n\tmaxage ${MAXAGE}\n\tmaxsize ${MAXSIZE}M\n}\n" >> /etc/logrotate.d/miso &&
         logrotate -f /etc/logrotate.d/miso
 fi
+END
+
 chown ${SERV_USER}:${SERV_USER} -R ${DATA}/java
 echo "!!! miso logrotate config "
 cat /etc/logrotate.d/miso
