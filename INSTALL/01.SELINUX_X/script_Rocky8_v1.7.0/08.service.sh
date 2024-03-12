@@ -82,7 +82,10 @@ useradd -g tomcat tomcat
 gpasswd -a tomcat tomcat
 #chown tomcat:tomcat /data/tomcat/ -R
 chown ${SERV_USER}:${SERV_USER} ${DATA}/tomcat -R
-chown ${SERV_USER}:${SERV_USER} ${DATA}/miso -R
+chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/fileUpload -R
+chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/editorImage -R
+chown ${SERV_USER}:${SERV_USER} ${DATA}/miso/webapps -R
+
 
 FIN="/usr/lib/systemd/system/tomcat.service"
 if [ -e $FIN ]; then
