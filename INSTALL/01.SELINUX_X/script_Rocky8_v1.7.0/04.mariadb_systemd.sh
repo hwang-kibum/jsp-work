@@ -9,8 +9,27 @@ cp -arvp ${INSTALL}mariadb/${MARIA}${MCOMP} ${DATA}
 cd ${DATA};
 
 #rpm install
-rpm -Uvh --nodeps --force ${INSTALL}package/Rocky8/ncurses/*.rpm
-rpm -Uvh --nodeps --force ${INSTALL}package/Rocky9/ncurses/*.rpm 
+str=$(cat /etc/*-release | grep PRETTY_NAME | awk '{print $3}')
+OS_VER=${str:0:1}
+
+if [ ${OS_VER} == "8" ]
+then 
+  rpm -Uvh --nodeps --force ${INSTALL}package/Rocky8/ncurses/*.rpm
+elif [ ${OS_VER} == "9" ]
+then
+  rpm -Uvh --nodeps --force ${INSTALL}package/Rocky9/ncurses/*.rpm 
+  #심볼릭 링크 설정
+  ln -s /usr/lib64/libncursesw.so.6.2 /usr/lib64/libncursesw.so.5
+  ln -s /usr/lib64/libform.so.6.2 /usr/lib64/libform.so.5
+  ln -s /usr/lib64/libtinfo.so.6.2 /usr/lib64/libtinfo.so.5
+ #심볼릭 링크 확인.
+  ls -ahil /usr/lib64/libncursesw.so.5
+  ls -ahil /usr/lib64/libform.so.5
+  ls -ahil /usr/lib64/libtinfo.so.5
+else 
+  echo "check OS version..."
+  exit
+fi 
 
 
 #MCOMP를 확인하고 tar 옵션 수정 필요.
