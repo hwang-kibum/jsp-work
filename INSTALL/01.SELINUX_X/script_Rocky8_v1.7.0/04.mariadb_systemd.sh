@@ -9,7 +9,8 @@ cp -arvp ${INSTALL}mariadb/${MARIA}${MCOMP} ${DATA}
 cd ${DATA};
 
 #rpm install
-rpm -Uvh --nodeps --force ${INSTALL}package/ncurses/*.rpm
+rpm -Uvh --nodeps --force ${INSTALL}package/Rocky8/ncurses/*.rpm
+rpm -Uvh --nodeps --force ${INSTALL}package/Rocky9/ncurses/*.rpm 
 
 
 #MCOMP를 확인하고 tar 옵션 수정 필요.
