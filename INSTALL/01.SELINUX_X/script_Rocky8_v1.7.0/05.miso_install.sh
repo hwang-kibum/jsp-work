@@ -24,54 +24,7 @@ read -p "do you install test server? (y|n) : " STATUS
 
 if [ $STATUS = "y" ]
 then
-	cd ${INSTALL}
-	rm -rf ${DATA}/miso/webapps/web/plugins/namo &&
-	cp ${INSTALL}miso_pack/namo.tar ${DATA}/miso/webapps/web/plugins/ &&
-	cd ${DATA}/miso/webapps/web/plugins &&
-	tar xvf namo.tar &&
-	rm -f ${DATA}/miso/webapps/web/plugins/namo.tar &&
-
-	cd ${DATA}/miso/webapps/web/plugins/namo/websource/jsp/
-	sed -i '1,1s/UTF/utf/g' EditorAuth.jsp
-	sed -i '1,1s/UTF/utf/g' FileUpload.jsp
-	sed -i '1,1s/UTF/utf/g' ImageUpload.jsp
-	sed -i '1,1s/UTF/utf/g' ImageUploadExecute.jsp
-	sed -i '2,2s/UTF/utf/g' SaveAs.jsp
-	sed -i '1,1s/UTF/utf/g' SecurityTool.jsp
-	sed -i '1,1s/UTF/utf/g' TemplateLoad.jsp
-	sed -i '1,1s/;c/; c/g' ImageUpload.jsp
-	cd ${DATA}/miso/webapps/web/plugins/namo/manage/jsp/
-	sed -i '1,1s/;c/; c/g' account_proc.jsp
-	sed -i '1,1s/;c/; c/g' account_setting.jsp
-	sed -i '1,1s/;c/; c/g' login_proc.jsp
-	sed -i '1,1s/;c/; c/g' logout.jsp
-	sed -i '1,1s/;c/; c/g' manager_preview.jsp
-	sed -i '1,1s/;c/; c/g' manager_proc.jsp
-	sed -i '1,1s/;c/; c/g' manager_setting.jsp
-	sed -i '1,1s/;c/; c/g' update_check.jsp
-
-	cd ${DATA}/miso/webapps/web/plugins/namo/websource/jsp/
-
-	sed -i '2d' ImagePath.jsp
-	sed -i '30d' ImagePath.jsp
-	sed -i '14,15d' ImagePath.jsp
-	sed -i '\/\/image/a String namoImageUPath = \"http:\/\/$IP:8080\/editorImage\"' ImagePath.jsp
-	sed -i '\/\/image/a String namoImagePhysicalPath = \"'"${DATA}"'/miso/editorImage\"' ImagePath.jsp
-	sed -i '10,11d' ImagePath.jsp
-	sed -i "\/\/movie/a String namoFlashUPath = \"http:\/\/$IP:8080\/editorImage\"" ImagePath.jsp
-	sed -i '\/\/movie/a String namoFlashPhysicalPath = \"'"${DATA}"'/miso/editorImage\"' ImagePath.jsp
-	sed -i '6,7d' ImagePath.jsp
-	sed -i "\/\/filelink/a String namoFileUPath = \"http:\/\/$IP:8080\/editorImage\"" ImagePath.jsp
-	sed -i '\/\/filelink/a String namoFilePhysicalPath =\"'"${DATA}"'/miso/editorImage\"' ImagePath.jsp
-	sed -i "s/websourchPath/http:\/\/$IP:8080\/editorImage\/namo\//g" ImagePath.jsp
-	#sed -i "s/websourcePath/http:\/\/$IP:8080\/editorImage\/namo\/" ImagePath.jsp
-
-	sed -i '7d' ImagePath.jsp
-	sed -i '10d' ImagePath.jsp
-	sed -i '13d' ImagePath.jsp
-
-	mkdir -p ${DATA}/miso/editorImage/namo/websource/jsp
-	cp -R ${DATA}/miso/webapps/web/plugins/namo/websource/jsp/* ${DATA}/miso/editorImage/namo/websource/jsp/
+	${INSTALL}script_Rocky8_v1.7.0/namo.sh
 else
 	echo "client server You must do it yourself Namo Editor."
 	sync;sync;sync;
