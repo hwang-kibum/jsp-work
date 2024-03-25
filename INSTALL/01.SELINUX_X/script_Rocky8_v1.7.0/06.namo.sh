@@ -29,8 +29,8 @@ then
                 sed -i '14,15d' ImagePath.jsp
 
                 read -p "scheme 1) http    2) https >>" SCHEME
-                        if [ ${SCHEME} -eq 1 ];
-                        then
+                if [ ${SCHEME} -eq 1 ];
+                then
                         if [ -z ${DOMAIN} ];
                         then
                                 sed -i '\/\/image/a String namoImageUPath = \"http:\/\/'"$IP"':'"$HTTP"'\/editorImage\";' ImagePath.jsp
