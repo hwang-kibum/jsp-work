@@ -33,7 +33,13 @@ else
   str=$(cat /etc/*-release | grep PRETTY_NAME | awk '{print $1}')
   OS_NAME=${str:13:6}
   echo ${OS_NAME} ${OS_VER}
-  dpkg -i ${INSTALL}package/Ubuntu/ncurses/*.deb 
+
+  if [ ${OS_NAME} == "Ubuntu" ]
+  then
+    dpkg -i ${INSTALL}package/Ubuntu/ncurses/*.deb 
+  else
+    "Not Know...OS..."
+    exit
 fi 
 
 
