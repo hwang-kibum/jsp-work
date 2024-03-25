@@ -60,7 +60,10 @@ IP="10.52.9.249"                              #install change
 ID="root"
 PW="wlfks@09!@#"
 FILE_PATH="${DATA}/miso/fileUpload"
-DOMAIN=""
+DOMAIN=""                                    #install change
+M_EDIT="${DATA}/miso/editorImage"
+HTTP="8080"
+HTTPS="8443"
 ###########################################
 ###########################################
 #07.service variable 
