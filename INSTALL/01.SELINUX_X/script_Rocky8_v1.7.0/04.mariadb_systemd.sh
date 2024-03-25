@@ -27,8 +27,13 @@ then
   ls -ahil /usr/lib64/libform.so.5
   ls -ahil /usr/lib64/libtinfo.so.5
 else 
-  echo "check OS version..."
-  exit
+  echo "not redhat linux ..."
+  str=$(cat /etc/*-release | grep PRETTY_NAME | awk '{print $2}')
+  OS_VER=${str:0:2}
+  str=$(cat /etc/*-release | grep PRETTY_NAME | awk '{print $1}')
+  OS_NAME=${str:13:6}
+  echo ${OS_NAME} ${OS_VER}
+  dpkg -i ${INSTALL}package/Ubuntu/ncurses/*.deb 
 fi 
 
 
