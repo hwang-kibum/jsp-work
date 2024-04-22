@@ -22,11 +22,13 @@ sed -i '30ifileUpload\.dir\='"$DATA"'\/miso\/fileUpload' ${DATA}/miso/webapps/WE
 
 read -p "do you install test server? (y|n) : " STATUS
 
-if [ $STATUS = "y" ]
+if [ $STATUS = "n" ]
 then
 	${INSTALL}script_Rocky8_v1.7.0/namo.sh
 else
 	echo "client server You must do it yourself Namo Editor."
+ 	mkdir ${DATA}/miso/editorImage
+  	cp -arp ${DATA}/miso/webapps/web/plugins/namo ${DATA}/miso/editorImage
 	sync;sync;sync;
 	echo "Start 06.sql.sh"
 	exit
