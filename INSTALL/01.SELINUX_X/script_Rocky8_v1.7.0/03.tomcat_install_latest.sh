@@ -30,7 +30,7 @@ sed -i '163 i\\t<Context path="/" docBase="'"${DATA}"'/miso/webapps" reloadable=
 sed -i '164 i\\t<Context path="/editorImage" docBase="'"${DATA}"'/miso/editorImage" reloadable="true"/>' ${DATA}/tomcat/conf/server.xml
 sed -i 's|pattern="%h %l %u %t &quot;%r&quot; %s %b" />|pattern="combined" resolveHosts="false" />|' ${DATA}/tomcat/conf/server.xml
 sed -i 's|unpackWARs="true" autoDeploy="true"|unpackWARs="false" autoDeploy="false"|' ${DATA}/tomcat/conf/server.xml 
-sed -i 's|maxParameterCount="1000"|maxParameterCount="1000" URIEncoding="UTF-8" enableLookups="false"|' ${DATA}/tomcat/server.xml
+sed -i 's|maxParameterCount="1000"|maxParameterCount="1000" URIEncoding="UTF-8" enableLookups="false" server="server"|' ${DATA}/tomcat/server.xml
 
 echo " "
 echo "!!!server.xml config complit"
