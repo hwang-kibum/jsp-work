@@ -79,7 +79,7 @@ sed -i '/^#/d' ${MARIA_HOME}/support-files/systemd/mariadb.service
 sed -i '/^\s*$/d' ${MARIA_HOME}/support-files/systemd/mariadb.service 
 
   # ProtectHome=true-> false
-sed -i 's/ProtectHome=true/ProtectHome=false/' sed -i 's/ProtectHome=true/ProtectHome=false/' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's/ProtectHome=true/ProtectHome=false/' ${MARIA_HOME}/support-files/systemd/mariadb.service
   # 경로 변경
 sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
