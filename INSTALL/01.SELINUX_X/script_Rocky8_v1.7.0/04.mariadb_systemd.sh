@@ -197,11 +197,11 @@ skip-host-cache
 skip-name-resolve
 log-error = ${MARIADB_LOGS}/error.err
 
-simple_password_check = ON
-simple_password_check_minimal_length=9
-simple_password_check_digits=1
-simple_password_check_letters_same_case=1
-simple_password_check_other-characters=2
+#simple_password_check = ON
+#simple_password_check_minimal_length=9
+#simple_password_check_digits=1
+#simple_password_check_letters_same_case=1
+#simple_password_check_other-characters=2
 #
 # include all files from the config directory
 #
