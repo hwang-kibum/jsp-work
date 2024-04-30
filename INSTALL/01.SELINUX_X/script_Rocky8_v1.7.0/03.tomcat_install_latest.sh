@@ -32,6 +32,7 @@ sed -i 's|pattern="%h %l %u %t &quot;%r&quot; %s %b" />|pattern="combined" resol
 sed -i 's|unpackWARs="true" autoDeploy="true"|unpackWARs="false" autoDeploy="false"|' ${DATA}/tomcat/conf/server.xml 
 sed -i 's|maxParameterCount="1000"|maxParameterCount="1000" URIEncoding="UTF-8" enableLookups="false" server="server"|' ${DATA}/tomcat/conf/server.xml
 
+
 echo " "
 echo "!!!server.xml config complit"
 echo " "
