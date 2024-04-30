@@ -20,7 +20,7 @@ sed -i '30d' ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 sed -i '30ifileUpload\.dir\='"$DATA"'\/miso\/fileUpload' ${DATA}/miso/webapps/WEB-INF/classes/properties/system.properties
 
 
-read -p "do you install test server? (y|n) : " STATUS
+read -p "do you install test server? (y: execute namo.sh |n: not execute namo.sh ) : " STATUS
 
 if [ $STATUS = "n" ]
 then
