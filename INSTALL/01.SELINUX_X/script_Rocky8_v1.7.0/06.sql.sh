@@ -43,10 +43,10 @@ case ${DB_USER_STATE} in
 			then
 				
 				LOOPBACK='127.0.0.1'
-    				echo "DELETE FROM user WHERE host='localhost' and user='';" >> 07.add.sql
-				echo "DELETE FROM user WHERE host='localhost.localdomain';" >> 07.add.sql
-				echo "DELETE FROM user WHERE user='PUBLIC';" >> 07.add.sql
-				echo "DELETE FROM user WHERE user='mysql';" >> 07.add.sql
+    				echo "DELETE FROM mysql.user WHERE host='localhost' and user='';" >> 07.add.sql
+				echo "DELETE FROM mysql.user WHERE host='localhost.localdomain';" >> 07.add.sql
+				echo "DELETE FROM mysql.user WHERE user='PUBLIC';" >> 07.add.sql
+				echo "DELETE FROM mysql.user WHERE user='mysql';" >> 07.add.sql
 				echo "SET PASSWORD FOR 'mysql'@'localhost'=password('${DB_USER_PW}')" >> 07.add.sql
 				echo "SET PASSWORD FOR 'mariadb.sys'@'localhost'=password('${DB_USER_PW}')" >> 07.add.sql
     				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');" >> 07.add.sql
