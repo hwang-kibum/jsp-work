@@ -47,8 +47,8 @@ case ${DB_USER_STATE} in
 				echo "DELETE FROM mysql.user WHERE host='localhost.localdomain';" >> 07.add.sql
 				echo "DELETE FROM mysql.user WHERE user='PUBLIC';" >> 07.add.sql
 				echo "DELETE FROM mysql.user WHERE user='mysql';" >> 07.add.sql
-				echo "SET PASSWORD FOR 'mysql'@'localhost'=password('${DB_USER_PW}')" >> 07.add.sql
-				echo "SET PASSWORD FOR 'mariadb.sys'@'localhost'=password('${DB_USER_PW}')" >> 07.add.sql
+				echo "SET PASSWORD FOR 'mysql'@'localhost'=password('${DB_USER_PW}');" >> 07.add.sql
+				echo "SET PASSWORD FOR 'mariadb.sys'@'localhost'=password('${DB_USER_PW}');" >> 07.add.sql
     				echo "SET PASSWORD FOR 'root'@'${HOST}'=password('${DB_USER_PW}');" >> 07.add.sql
 				echo "ALTER USER 'root'@'${HOST}' IDENTIFIED VIA MYSQL_NATIVE_PASSWORD USING PASSWORD('${DB_USER_PW}');" >> 07.add.sql
 				echo "CREATE USER '${DB_USER}'@'${HOST}' IDENTIFIED BY '${DB_USER_PW}';" >> 07.add.sql
