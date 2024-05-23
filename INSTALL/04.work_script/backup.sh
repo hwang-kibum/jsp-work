@@ -29,7 +29,7 @@ RESULT=0;
 
 
 #create dir
-function adddir {
+function addDir {
          ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
 
 }
@@ -147,7 +147,7 @@ function checkRemote {
 #RUN TIME  ...>
 
 #remote server에 신규 디렉토리 생성.
-adddir
+addDir
 
 #CNFG backup
 configBackup
