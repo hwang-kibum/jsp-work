@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#해당 스크립트 ssh key를 교환후 진행해야합니다.
-#자동 로그인 되진 않습니다.
-
-
 DEF='/data'
 MISO="${DEF}/miso"
 TOM="${DEF}/tomcat"
@@ -22,15 +18,36 @@ INODE='inode.info'
 
 RMOTIP='10.52.9.244'
 RMOTID='jsp'
+RMOTPW="wlfks@09!"
 RMOTEPATH='/home/jsp/miso_backup'
+#WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
 RMOTEPORT=22
 RM_DAY=90
 RESULT=0;
 
 
+# 0 KEY
+# 1 SSHPASS
+# 2 WIN
+INDEX=2
 #create dir
+function checkSshpass {
+        if rpm -qa | grep -q sshpass; then
+                rpm -qa | grep sshpass
+        else
+                echo "sshpass not exist"
+                exit
+        fi
+
+}
+
+
 function addDir {
          ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
+
+}
+function sshpassAddDir {
+         sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
 
 }
 
@@ -123,7 +140,16 @@ function configBackup {
 function scpWebappsSend {
         if [ $1 -eq 2 ];then
 
-                scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
+                scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
+        else
+                echo "webapps jump..."
+        fi
+
+}
+function sshpassScpWebappsSend {
+        if [ $1 -eq 2 ];then
+
+                sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "webapps jump..."
         fi
@@ -132,8 +158,9 @@ function scpWebappsSend {
 function scpSend {
         scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
-
-
+function sshpassScpSend {
+        sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
+}
 #rsync
 function rsyncSend {
         echo "rsyncSend"
@@ -145,38 +172,86 @@ function checkRemote {
         ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
         echo "" >> ${AT_BAK}/backupstatus.log
 }
-#RUN TIME  ...>
 
-#remote server에 신규 디렉토리 생성.
-addDir
+function sshpassCheckRemote {
+        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
+        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
+        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
+        echo "" >> ${AT_BAK}/backupstatus.log
 
-#CNFG backup
-configBackup
+}
 
-#JAVA backup
-javaBackup
 
-#TOMCAT backup
-tomcatBackup
 
-#WEBAPPS inode 확인
-webappsCheck
+#window mkdir
 
-#FILE backup
-fileBackup
 
-#EDIT backup
-editorBackup
+#Window scp
+function scpWinWebappsSend {
+        if [ $1 -eq 2 ];then
 
-#DB backup
-mariadbdump
+                sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
+        else
+                echo "webapps jump..."
+        fi
 
-#WEBAPPS 전송
-scpWebappsSend ${RESULT}
+}
+function scpWinSend {
+        sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
+}
+echo "RUN BACKCUP~"
+echo ${INDEX}
+case ${INDEX} in
+       0)
+                echo "KEY"
+                #LINUX Keygen
+                addDir
+                configBackup
+                javaBackup
+                tomcatBackup
+                webappsCheck
+                fileBackup
+                editorBackup
+                mariadbdump
+                scpWebappsSend ${RESULT}
+                scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                checkRemote
+               ;;
 
-#EDIT, FILE, JAVA, TOMCAT, DB, CNFG 전송
-scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+       1)
+               echo "SSHPASS"
+               #LINUX SSHPASS
+               checkSshpass
+               sshpassAddDir
+               configBackup
+               javaBackup
+               tomcatBackup
+               webappsCheck
+               fileBackup
+               editorBackup
+               mariadbdump
+               scpWebappsSend ${RESULT}
+               sshpassScpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+               sshpassCheckRemote
+               ;;
 
-#remote 서버쪽 전송 리스트 확인.
-checkRemote
+       2)
+               echo "WIN"
+               #WINDOW SSHPASS
+               checkSshpass
+               configBackup
+               javaBackup
+               tomcatBackup
+               webappsCheck
+               fileBackup
+               editorBackup
+               mariadbdump
+               scpWinWebappsSend ${RESULT}
+               scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+               ;;
 
+       *)
+               echo "select INDEX config"
+               exit
+               ;;
+esac
