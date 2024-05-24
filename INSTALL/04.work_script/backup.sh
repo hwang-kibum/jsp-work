@@ -321,7 +321,7 @@ function scpWinSend {
 ############<WIN send data check>#################
 function WincheckRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "dir ${WINRMOTEPATH}" >> ${AT_BAK}/backupstatus.log
+        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "dir ${WINRMOTEPATH}" >> ${AT_BAK}/backupstatus.log
         echo "" >> ${AT_BAK}/backupstatus.log
 }
 
