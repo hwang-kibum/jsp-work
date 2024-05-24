@@ -118,10 +118,8 @@ function configBackup {
         tar -C ${MISO} -zcvf ${AT_BAK}/CNFG-${DAYS}.tar.gz config-set
 }
 
-
-
-
 ################################################################
+#                            ing ..                            #
 #                        rsync Functions                       #
 ################################################################
 ############ DEVing ....
