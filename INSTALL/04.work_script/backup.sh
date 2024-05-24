@@ -221,6 +221,7 @@ case ${INDEX} in
        0)
                 echo "KEY"
                 #LINUX Keygen
+                autoBackupPath
                 addDir
                 configBackup
                 javaBackup
@@ -237,6 +238,7 @@ case ${INDEX} in
        1)
                echo "SSHPASS"
                #LINUX SSHPASS
+               autoBackupPath
                checkSshpass
                sshpassAddDir
                configBackup
@@ -254,6 +256,7 @@ case ${INDEX} in
        2)
                echo "WIN"
                #WINDOW SSHPASS
+               autoBackupPath
                checkSshpass
                configBackup
                javaBackup
@@ -268,6 +271,7 @@ case ${INDEX} in
         3)
                 echo "LOCAL"
                 #LOCAL BACKUP
+                autoBackupPath
                 configBackup
                 javaBackup
                 tomcatBackup
