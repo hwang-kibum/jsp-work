@@ -1,36 +1,45 @@
 #!/bin/bash
-
+################################################################
+#                       Default Variables                      #
+################################################################
+INODE='inode.info'
+DAYS=$(date +%Y-%m-%d)
+RESULT=0
+RM_DAY=90
+# 0 KEY
+# 1 SSHPASS
+# 2 WIN
+# 3 LOCAL
+INDEX=2
+################################################################
+#                        PATH Variables                        #
+################################################################
 DEF='/data'
 MISO="${DEF}/miso"
 TOM="${DEF}/tomcat"
+JV="${DEF}/java"
 WEB="${MISO}/webapps"
 FILE="${MISO}/fileUpload"
 EDIT="${MISO}/editorImage"
-JV="${DEF}/java"
 AT_BAK="${DEF}/backup/autobackup"
-
-DAYS=$(date +%Y-%m-%d)
-
+################################################################
+#                       DB/ID/PW Variables                     #
+################################################################
 DB='miso'
 D_ID='root'
 D_PW='Wlfks@09!@#'
-INODE='inode.info'
-
+################################################################
+#                        REMOTE Variables                      #
+################################################################
 RMOTIP='10.52.9.244'
 RMOTID='jsp'
 RMOTPW="wlfks@09!"
 RMOTEPATH='/home/jsp/miso_backup'
 #WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
 RMOTEPORT=22
-RM_DAY=90
-RESULT=0;
 
 
-# 0 KEY
-# 1 SSHPASS
-# 2 WIN
-INDEX=2
-#create dir
+############<sshpass Check>############
 function checkSshpass {
         if rpm -qa | grep -q sshpass; then
                 rpm -qa | grep sshpass
@@ -41,17 +50,19 @@ function checkSshpass {
 
 }
 
-
+############<KEY Create dir>############
 function addDir {
          ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
 
 }
+
+############<sshpass Create dir>############
 function sshpassAddDir {
          sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
 
 }
 
-#
+############<common autobackup path check dir>############
 function autoBackupPath {
         if [ -d ${AT_BAK} ];then
                 echo "${AT_BAK} exist"
@@ -60,18 +71,18 @@ function autoBackupPath {
         fi
 }
 
-#JAVA backup
+############<common java backup>############
 function javaBackup {
         echo "java backup"
         tar -C ${DEF} -zcvf ${AT_BAK}/JAVA-${DAYS}.tar.gz java
 }
-#TOMCAT backup
+############<common tomcat backup>############
 function tomcatBackup {
         echo "tomcat backup"
         tar -C ${DEF} --exclude=tomcat/logs/* --exclude=tomcat/work/Catalina/localhost/* -zcvf ${AT_BAK}/TOMCAT-${DAYS}.tar.gz tomcat
 }
 
-#WEBAPP backup
+############<common webacpps inode file & value check>############
 function webappsCheck {
         echo "webapss Check"
         # inode 생성 유무 확인
@@ -100,6 +111,8 @@ function webappsCheck {
                 RESULT=2
         fi
 }
+############ DEVing ....
+############<rsyn webapps inode file & value check>############
 function webappsBackup {
         if [ $1 -eq 2 ];then
                 rsyn -avz -e 'ssh -p '${RMOTEPORT}'' ${AT_BAK}/WEBAPPS.tar.gz ${RMOTEID}@${RMOTIP}:${RMOTEPATH}:${DAYS}
@@ -107,36 +120,35 @@ function webappsBackup {
                 echo "equal inode value"
         fi
 }
-#FILE backup
+############<common fileUpload backup>############
 function fileBackup {
         echo "File backup"
 
         tar -C ${MISO} -zcvf ${AT_BAK}/FILE-${DAYS}.tar.gz fileUpload
 }
-#EDIT backup
+############<common editorImage backup>############
 function editorBackup {
         echo "editor backup"
 
         tar -C ${MISO} -zcvf ${AT_BAK}/EDIT-${DAYS}.tar.gz editorImage
 }
 
-#mariadb dump
+############<common mariadbdump backup>############
 function mariadbdump {
         mysqldump -u${D_ID} -p${D_PW} --default-character-set utf8 $DB > ${AT_BAK}/${DB}-${DAYS}.sql
 }
-#RM DAY
+############<common local backup rm>############
 function rmBackup {
         NOW=$(date +"%Y-%m-%d")
         find ${AT_BAK}/* -mtime +${RM_DAY} -exec rm -f {} \;
 }
-# config backup
+############<common config backup>############
 function configBackup {
         tar -C ${MISO} -zcvf ${AT_BAK}/CNFG-${DAYS}.tar.gz config-set
 }
 
 
-#scp
-
+############<KEY scp webapps send>############
 function scpWebappsSend {
         if [ $1 -eq 2 ];then
 
@@ -146,6 +158,7 @@ function scpWebappsSend {
         fi
 
 }
+############<sshpass scp webapps send>############
 function sshpassScpWebappsSend {
         if [ $1 -eq 2 ];then
 
@@ -155,17 +168,21 @@ function sshpassScpWebappsSend {
         fi
 
 }
+############<KEY scp webapps send>############
 function scpSend {
         scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
+
+############<sshpass multi-param send>############
 function sshpassScpSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
-#rsync
+############ DEVing ....
+############<rsync multi-param send>############
 function rsyncSend {
         echo "rsyncSend"
 }
-#check remote server
+############<KEY send data check>############
 function checkRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
         ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
@@ -173,6 +190,7 @@ function checkRemote {
         echo "" >> ${AT_BAK}/backupstatus.log
 }
 
+############<sshpass send data check>############
 function sshpassCheckRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
         sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
@@ -180,13 +198,7 @@ function sshpassCheckRemote {
         echo "" >> ${AT_BAK}/backupstatus.log
 
 }
-
-
-
-#window mkdir
-
-
-#Window scp
+############<WIN sshpass scp webapps send>############
 function scpWinWebappsSend {
         if [ $1 -eq 2 ];then
 
@@ -196,9 +208,13 @@ function scpWinWebappsSend {
         fi
 
 }
+############<WIN sshpass scp multi-param send>############
 function scpWinSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
 }
+
+
+##############<Run>#################
 echo "RUN BACKCUP~"
 echo ${INDEX}
 case ${INDEX} in
@@ -249,6 +265,17 @@ case ${INDEX} in
                scpWinWebappsSend ${RESULT}
                scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
                ;;
+        3)
+                echo "LOCAL"
+                #LOCAL BACKUP
+                configBackup
+                javaBackup
+                tomcatBackup
+                webappsCheck
+                fileBackup
+                editorBackup
+                mariadbdump
+                ;;
 
        *)
                echo "select INDEX config"
