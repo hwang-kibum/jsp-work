@@ -342,7 +342,7 @@ case ${INDEX} in
                echo "SSHPASS"
                #LINUX SSHPASS
                autoBackupPath
-               #checkSshpass
+               checkSshpass
                sshpassAddDir
                configBackup
                javaBackup
