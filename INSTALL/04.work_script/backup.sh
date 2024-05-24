@@ -46,7 +46,7 @@ function autoBackupPath {
         if [ -d ${AT_BAK} ];then
                 echo "${AT_BAK} exist"
         else
-                mkdir ${AT_BAK}
+                mkdir -p ${AT_BAK}
         fi
 }
 
