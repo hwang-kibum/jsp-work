@@ -3,14 +3,19 @@
 #                       Default Variables                      #
 ################################################################
 INODE='inode.info'
+JAVER='java.info'
+TOMVER='tomcat.info'
 DAYS=$(date +%Y-%m-%d)
 RESULT=0
+RESULT_J=0
+RESULT_T=0
 RM_DAY=30
 # 0 KEY
 # 1 SSHPASS
 # 2 WIN
 # 3 LOCAL
-INDEX=0
+INDEX=2
+
 ################################################################
 #                        PATH Variables                        #
 ################################################################
@@ -31,11 +36,11 @@ D_PW='Wlfks@09!@#'
 ################################################################
 #                        REMOTE Variables                      #
 ################################################################
-RMOTIP='10.52.9.244'
-RMOTID='jsp'
-RMOTPW="wlfks@09!"
+RMOTIP='10.52.9.29'
+RMOTID='user'
+RMOTPW="CQriT@Info^0^"
 RMOTEPATH='/home/jsp/miso_backup'
-#WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
+WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
 RMOTEPORT=22
 
 ################################################################
@@ -49,18 +54,48 @@ function autoBackupPath {
                 mkdir -p ${AT_BAK}
         fi
 }
-
 ############<common java backup>############
 function javaBackup {
         echo "java backup"
-        tar -C ${DEF} -zcvf ${AT_BAK}/JAVA-${DAYS}.tar.gz java
+        if [ -e ${DEF}/backup/${JAVER} ];then
+                echo "${JAVER} exist file"
+                JAV_TMP=$(md5sum ${JV}/bin/java | awk '{ print $1}')
+                J_TMP=$(cat ${DEF}/backup/${JAVER})
+        else
+                JAV_TMP=$(md5sum ${JV}/bin/java | awk '{ print $1}')
+                J_TMP=0
+        fi
+        if [ "${JAV_TMP}" == "${J_TMP}" ];then
+                echo "java backup jump"
+                RESULT_J=1
+        else
+                echo ${JAV_TMP} > ${DEF}/backup/${JAVER}
+                rm -rf ${AT_BAK}/JAVA.tar.gz
+                tar -C ${DEF} -zcvf ${AT_BAK}/JAVA.tar.gz java
+                RESULT_J=2
+        fi
 }
 ############<common tomcat backup>############
 function tomcatBackup {
         echo "tomcat backup"
-        tar -C ${DEF} --exclude=tomcat/logs/* --exclude=tomcat/work/Catalina/localhost/* -zcvf ${AT_BAK}/TOMCAT-${DAYS}.tar.gz tomcat
+        if [ -e ${DEF}/backup/${TOMVER} ];then
+                echo "${TOMVER} exist file"
+                TOM_TMP=$(md5sum ${TOM}/conf/server.xml | awk '{ print $1 }')
+                T_TMP=$(cat ${DEF}/backup/${TOMVER})
+        else
+                TOM_TMP=$(md5sum ${TOM}/conf/server.xml | awk '{ print $1 }')
+                T_TMP=0
+        fi
+        if [ ${TOM_TMP} == ${T_TMP} ];then
+                echo "TOMCAT backup jump"
+                RESULT_T=1
+        else
+                echo ${TOM_TMP} > ${DEF}/backup/${TOMVER}
+                rm -rf ${AT_BAK}/TOMCAT.tar.gz
+                tar -C ${DEF} --exclude=tomcat/logs/* --exclude=tomcat/work/Catalina/localhost/* -zcvf ${AT_BAK}/TOMCAT.tar.gz tomcat
+                RESULT_T=2
+        fi
 }
-
 ############<common webacpps inode file & value check>############
 function webappsCheck {
         echo "webapss Check"
@@ -117,7 +152,6 @@ function rmBackup {
 function configBackup {
         tar -C ${MISO} -zcvf ${AT_BAK}/CNFG-${DAYS}.tar.gz config-set
 }
-
 ################################################################
 #                            ing ..                            #
 #                        rsync Functions                       #
@@ -155,6 +189,24 @@ function scpWebappsSend {
         fi
 
 }
+function scpJavaSend {
+        if [ $1 -eq 2 ];then
+
+                scp -P ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
+        else
+                echo "java jump..."
+        fi
+
+}
+function scpTomcatSend {
+        if [ $1 -eq 2 ];then
+
+                scp -P ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
+        else
+                echo "tomcat jump..."
+        fi
+
+}
 
 ############<KEY scp webapps send>############
 function scpSend {
@@ -168,7 +220,6 @@ function checkRemote {
         ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
         echo "" >> ${AT_BAK}/backupstatus.log
 }
-
 ################################################################
 #                       sshpass Functions                      #
 ################################################################
@@ -198,6 +249,24 @@ function sshpassScpWebappsSend {
         fi
 
 }
+function sshpassScpJavaSend {
+        if [ $1 -eq 2 ];then
+
+                sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
+        else
+                echo "java jump..."
+        fi
+
+}
+function sshpassScpTomcatSend {
+        if [ $1 -eq 2 ];then
+
+                sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
+        else
+                echo "tomcat jump..."
+        fi
+
+}
 ############<sshpass multi-param send>############
 function sshpassScpSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
@@ -224,12 +293,28 @@ function scpWinWebappsSend {
         fi
 
 }
+function scpWinJavaSend {
+        if [ $1 -eq 2 ];then
+
+                sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
+        else
+                echo "java jump..."
+        fi
+
+}
+function scpWinTomcatSend {
+        if [ $1 -eq 2 ];then
+
+                sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
+        else
+                echo "tomcat jump..."
+        fi
+
+}
 ############<WIN sshpass scp multi-param send>############
 function scpWinSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
 }
-
-
 ##############<Run>#################
 echo "RUN BACKCUP~"
 echo ${INDEX}
@@ -247,7 +332,9 @@ case ${INDEX} in
                 editorBackup
                 mariadbdump
                 scpWebappsSend ${RESULT}
-                scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                scpJavaSend ${RESULT_J}
+                scpTomcatSend ${RESULT_T}
+                scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
                 checkRemote
                ;;
 
@@ -255,7 +342,7 @@ case ${INDEX} in
                echo "SSHPASS"
                #LINUX SSHPASS
                autoBackupPath
-               checkSshpass
+               #checkSshpass
                sshpassAddDir
                configBackup
                javaBackup
@@ -264,11 +351,12 @@ case ${INDEX} in
                fileBackup
                editorBackup
                mariadbdump
-               scpWebappsSend ${RESULT}
-               sshpassScpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+               sshpassScpWebappsSend ${RESULT}
+               sshpassScpJavaSend ${RESULT_J}
+               sshpassScpTomcatSend ${RESULT_T}
+               sshpassScpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
                sshpassCheckRemote
                ;;
-
        2)
                echo "WIN"
                #WINDOW SSHPASS
@@ -282,7 +370,9 @@ case ${INDEX} in
                editorBackup
                mariadbdump
                scpWinWebappsSend ${RESULT}
-               scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/JAVA-${DAYS}.tar.gz ${AT_BAK}/TOMCAT-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+               scpWinJavaSend ${RESULT_J}
+               scpWinTomcatSend ${RESULT_T}
+               scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
                ;;
         3)
                 echo "LOCAL"
@@ -302,3 +392,4 @@ case ${INDEX} in
                exit
                ;;
 esac
+
