@@ -142,6 +142,7 @@ function rsyncSend {
 function checkRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
         ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
         echo "" >> ${AT_BAK}/backupstatus.log
 }
 #RUN TIME  ...>
