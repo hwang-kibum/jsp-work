@@ -5,7 +5,7 @@
 INODE='inode.info'
 DAYS=$(date +%Y-%m-%d)
 RESULT=0
-RM_DAY=90
+RM_DAY=30
 # 0 KEY
 # 1 SSHPASS
 # 2 WIN
