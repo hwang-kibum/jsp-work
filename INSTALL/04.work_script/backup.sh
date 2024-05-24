@@ -38,30 +38,9 @@ RMOTEPATH='/home/jsp/miso_backup'
 #WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
 RMOTEPORT=22
 
-
-############<sshpass Check>############
-function checkSshpass {
-        if rpm -qa | grep -q sshpass; then
-                rpm -qa | grep sshpass
-        else
-                echo "sshpass not exist"
-                exit
-        fi
-
-}
-
-############<KEY Create dir>############
-function addDir {
-         ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
-
-}
-
-############<sshpass Create dir>############
-function sshpassAddDir {
-         sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
-
-}
-
+################################################################
+#                       COMMONS Functions                      #
+################################################################
 ############<common autobackup path check dir>############
 function autoBackupPath {
         if [ -d ${AT_BAK} ];then
@@ -111,15 +90,7 @@ function webappsCheck {
                 RESULT=2
         fi
 }
-############ DEVing ....
-############<rsyn webapps inode file & value check>############
-function webappsBackup {
-        if [ $1 -eq 2 ];then
-                rsyn -avz -e 'ssh -p '${RMOTEPORT}'' ${AT_BAK}/WEBAPPS.tar.gz ${RMOTEID}@${RMOTIP}:${RMOTEPATH}:${DAYS}
-        else
-                echo "equal inode value"
-        fi
-}
+
 ############<common fileUpload backup>############
 function fileBackup {
         echo "File backup"
@@ -148,6 +119,34 @@ function configBackup {
 }
 
 
+
+
+################################################################
+#                        rsync Functions                       #
+################################################################
+############ DEVing ....
+############<rsync multi-param send>############
+function rsyncSend {
+        echo "rsyncSend"
+}
+
+############ DEVing ....
+############<rsyn webapps inode file & value check>############
+function webappsBackup {
+        if [ $1 -eq 2 ];then
+                rsyn -avz -e 'ssh -p '${RMOTEPORT}'' ${AT_BAK}/WEBAPPS.tar.gz ${RMOTEID}@${RMOTIP}:${RMOTEPATH}:${DAYS}
+        else
+                echo "equal inode value"
+        fi
+}
+################################################################
+#                         KEY Functions                        #
+################################################################
+############<KEY Create dir>############
+function addDir {
+         ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
+
+}
 ############<KEY scp webapps send>############
 function scpWebappsSend {
         if [ $1 -eq 2 ];then
@@ -156,6 +155,39 @@ function scpWebappsSend {
         else
                 echo "webapps jump..."
         fi
+
+}
+
+############<KEY scp webapps send>############
+function scpSend {
+        scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
+}
+
+############<KEY send data check>############
+function checkRemote {
+        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
+        echo "" >> ${AT_BAK}/backupstatus.log
+}
+
+################################################################
+#                       sshpass Functions                      #
+################################################################
+
+############<sshpass Check>############
+function checkSshpass {
+        if rpm -qa | grep -q sshpass; then
+                rpm -qa | grep sshpass
+        else
+                echo "sshpass not exist"
+                exit
+        fi
+
+}
+############<sshpass Create dir>############
+function sshpassAddDir {
+         sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
 
 }
 ############<sshpass scp webapps send>############
@@ -168,28 +200,10 @@ function sshpassScpWebappsSend {
         fi
 
 }
-############<KEY scp webapps send>############
-function scpSend {
-        scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
-}
-
 ############<sshpass multi-param send>############
 function sshpassScpSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
-############ DEVing ....
-############<rsync multi-param send>############
-function rsyncSend {
-        echo "rsyncSend"
-}
-############<KEY send data check>############
-function checkRemote {
-        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
-        echo "" >> ${AT_BAK}/backupstatus.log
-}
-
 ############<sshpass send data check>############
 function sshpassCheckRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
@@ -198,6 +212,10 @@ function sshpassCheckRemote {
         echo "" >> ${AT_BAK}/backupstatus.log
 
 }
+################################################################
+#                       Windows Functions                      #
+################################################################
+
 ############<WIN sshpass scp webapps send>############
 function scpWinWebappsSend {
         if [ $1 -eq 2 ];then
