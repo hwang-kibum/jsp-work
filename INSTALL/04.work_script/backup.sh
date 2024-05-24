@@ -318,6 +318,13 @@ function scpWinTomcatSend {
 function scpWinSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
 }
+############<WIN send data check>#################
+function WincheckRemote {
+        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "dir ${WINRMOTEPATH}" >> ${AT_BAK}/backupstatus.log
+        echo "" >> ${AT_BAK}/backupstatus.log
+}
+
 ##############<Run>#################
 echo "RUN BACKCUP~"
 echo ${INDEX}
@@ -376,6 +383,7 @@ case ${INDEX} in
                scpWinJavaSend ${RESULT_J}
                scpWinTomcatSend ${RESULT_T}
                scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+               WincheckRemote 
                ;;
         3)
                 echo "LOCAL"
