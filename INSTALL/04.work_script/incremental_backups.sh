@@ -16,6 +16,18 @@ echo ${OLD_DAYS}
 # 선행 작업.
 #mariadb-backup --backup --history --no-lock --user=${ID} --password=${PW} --target-dir=${PATH}/${DAYS}
 
+function backup_ref_basedir {
+        /usr/bin/mariadb-backup --backup \
+                --history --no-lock \
+                --user=${ID} --password=${PW} \
+                --target-dir=${PATH}/${DAYS} \
+                --incremental-basedir=${PATH}/${OLDDAY}
+}
+
+function backup_first {
+        /usr/bin/mariadb-backup --backup --history --no-lock --user=${ID} --password=${PW} --target-dir=${PATH}/${DAYS}
+}
+
 function old_backup_check {
         if  [ -d ${PATH}/${DAYS} ];then
                 echo "${DAYS} exist....dir"
@@ -28,17 +40,6 @@ function old_backup_check {
         fi
 }
 
-function backup_ref_basedir {
-        /usr/bin/mariadb-backup --backup \
-                --history --no-lock \
-                --user=${ID} --password=${PW} \
-                --target-dir=${PATH}/${DAYS} \
-                --incremental-basedir=${PATH}/${OLDDAY}
-}
-
-function backup_first {
-        /usr/bin/mariadb-backup --backup --history --no-lock --user=${ID} --password=${PW} --target-dir=${PATH}/${DAYS}
-}
 
 
 #############################################
