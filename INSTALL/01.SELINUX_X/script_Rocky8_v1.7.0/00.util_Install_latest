@@ -25,7 +25,7 @@ JDK_V="jdk1.8.0_391"
 ############################################
 #tomcat variable
 #버전 정보 업그레이드시 파일명 수정.
-TOMCAT="apache-tomcat-8.5.99"
+TOMCAT="apache-tomcat-9.0.88"
 TCOMP=".tar.gz"
 TOMCAT_DIR="tomcat/"
 #TOMCAT_DIR_2="tomcat/"
