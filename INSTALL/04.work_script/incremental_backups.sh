@@ -17,16 +17,14 @@ echo ${OLD_DAYS}
 #mariadb-backup --backup --history --no-lock --user=${ID} --password=${PW} --target-dir=${PATH}/${DAYS}
 
 function old_backup_check {
-        if [ -d ${PATH}/${OLDDAY} ];then
+        if  [ -d ${PATH}/${DAYS} ];then
+                echo "${DAYS} exist....dir"
+        elif [ -d ${PATH}/${OLDDAY} ];then
                 echo "${OLDDAY} exist"
                 backup_ref_basedir
-        elif [ -d ${PATH}/${DAYS} ];then
-                echo "${DAYS} exist....dir"
-
         else
                 echo "${PATH}/${OLDDAY} directory not exist"
                 backup_first
-                exit
         fi
 }
 
@@ -40,7 +38,12 @@ function backup_ref_basedir {
 
 function backup_first {
         /usr/bin/mariadb-backup --backup --history --no-lock --user=${ID} --password=${PW} --target-dir=${PATH}/${DAYS}
-
 }
+
+
+#############################################
+#                    Run                    #
+#############################################
+
 old_backup_check
 
