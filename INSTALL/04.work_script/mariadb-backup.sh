@@ -13,7 +13,6 @@ if [ -d ${PATH} ];then
 else
         mkdir -p ${PATH}
         maraidb-backup --backup --user=${ID} --password=${PW} --stream=xbstream 2>backup.log | /usr/bin/pigz -p ${CORE} > ${PATH}/${BAK}
-
 fi
 
 /usr/bin/cp /etc/my.cnf ${PATH}
