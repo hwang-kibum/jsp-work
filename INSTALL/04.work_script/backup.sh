@@ -45,7 +45,6 @@ RMOTPW="CQriT@Info^0^"
 RMOTEPATH='/home/jsp/miso_backup'
 WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
 RMOTEPORT=22
-
 ################################################################
 #                       COMMONS Functions                      #
 ################################################################
@@ -106,12 +105,10 @@ function webappsCheck {
         # inode 값 비교
                 #값 같으면 : RESULT =1
                 #값 다르면 : RESULT=2 압축
-        #
         if [ -e ${DEF}/backup/${INODE} ];then
                 echo "${INODE} exist file"
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
                 VALUES=$(cat ${DEF}/backup/${INODE})
-
         else
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
                 VALUES=0
@@ -132,13 +129,11 @@ function webappsCheck {
 ############<common fileUpload backup>############
 function fileBackup {
         echo "File backup"
-
         tar -C ${MISO} -zcvf ${AT_BAK}/FILE-${DAYS}.tar.gz fileUpload
 }
 ############<common editorImage backup>############
 function editorBackup {
         echo "editor backup"
-
         tar -C ${MISO} -zcvf ${AT_BAK}/EDIT-${DAYS}.tar.gz editorImage
 }
 
@@ -180,35 +175,28 @@ function webappsBackup {
 ############<KEY Create dir>############
 function addDir {
          ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
-
 }
 ############<KEY scp webapps send>############
 function scpWebappsSend {
         if [ $1 -eq 2 ];then
-
                 scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "webapps jump..."
         fi
-
 }
 function scpJavaSend {
         if [ $1 -eq 2 ];then
-
                 scp -P ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "java jump..."
         fi
-
 }
 function scpTomcatSend {
         if [ $1 -eq 2 ];then
-
                 scp -P ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "tomcat jump..."
         fi
-
 }
 
 ############<KEY scp webapps send>############
@@ -235,22 +223,18 @@ function checkSshpass {
                 echo "sshpass not exist"
                 exit
         fi
-
 }
 ############<sshpass Create dir>############
 function sshpassAddDir {
          sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
-
 }
 ############<sshpass scp webapps send>############
 function sshpassScpWebappsSend {
         if [ $1 -eq 2 ];then
-
                 sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "webapps jump..."
         fi
-
 }
 function sshpassScpJavaSend {
         if [ $1 -eq 2 ];then
@@ -259,7 +243,6 @@ function sshpassScpJavaSend {
         else
                 echo "java jump..."
         fi
-
 }
 function sshpassScpTomcatSend {
         if [ $1 -eq 2 ];then
@@ -268,7 +251,6 @@ function sshpassScpTomcatSend {
         else
                 echo "tomcat jump..."
         fi
-
 }
 ############<sshpass multi-param send>############
 function sshpassScpSend {
@@ -289,25 +271,20 @@ function sshpassCheckRemote {
 ############<WIN sshpass scp webapps send>############
 function scpWinWebappsSend {
         if [ $1 -eq 2 ];then
-
                 sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
         else
                 echo "webapps jump..."
         fi
-
 }
 function scpWinJavaSend {
         if [ $1 -eq 2 ];then
-
                 sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
         else
                 echo "java jump..."
         fi
-
 }
 function scpWinTomcatSend {
         if [ $1 -eq 2 ];then
-
                 sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
         else
                 echo "tomcat jump..."
@@ -347,7 +324,6 @@ case ${INDEX} in
                 scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
                 checkRemote
                ;;
-
        1)
                echo "SSHPASS"
                #LINUX SSHPASS
@@ -397,7 +373,6 @@ case ${INDEX} in
                 editorBackup
                 mariadbdump
                 ;;
-
        *)
                echo "select INDEX config"
                exit
