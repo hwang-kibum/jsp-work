@@ -14,7 +14,7 @@ RM_DAY=30
 # 1 SSHPASS
 # 2 WIN
 # 3 LOCAL
-INDEX=2
+INDEX=0
 #SPLIT="Y" 분할 압축 1G
 #SPLIT="N" 일반 백업
 SPLIT="N"
@@ -31,6 +31,11 @@ FILE="${MISO}/fileUpload"
 EDIT="${MISO}/editorImage"
 AT_BAK="${DEF}/backup/autobackup"
 ################################################################
+#                        Daemon Variables                      #
+################################################################
+DAEMON_PATH="${DEF}/miso_daemon"
+DAEMON_USE='N'
+################################################################
 #                       DB/ID/PW Variables                     #
 ################################################################
 DB='miso'
@@ -39,12 +44,13 @@ D_PW='Wlfks@09!@#'
 ################################################################
 #                        REMOTE Variables                      #
 ################################################################
-RMOTIP='10.52.9.29'
-RMOTID='user'
-RMOTPW="CQriT@Info^0^"
+RMOTIP='10.52.9.249'
+RMOTID='jsp'
+RMOTPW="wlfks@09!"
 RMOTEPATH='/home/jsp/miso_backup'
 WINRMOTEPATH='C:\\Users\\user\\Downloads\\'
 RMOTEPORT=22
+
 ################################################################
 #                       COMMONS Functions                      #
 ################################################################
@@ -105,10 +111,12 @@ function webappsCheck {
         # inode 값 비교
                 #값 같으면 : RESULT =1
                 #값 다르면 : RESULT=2 압축
+        #
         if [ -e ${DEF}/backup/${INODE} ];then
                 echo "${INODE} exist file"
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
                 VALUES=$(cat ${DEF}/backup/${INODE})
+
         else
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
                 VALUES=0
@@ -129,14 +137,15 @@ function webappsCheck {
 ############<common fileUpload backup>############
 function fileBackup {
         echo "File backup"
+
         tar -C ${MISO} -zcvf ${AT_BAK}/FILE-${DAYS}.tar.gz fileUpload
 }
 ############<common editorImage backup>############
 function editorBackup {
         echo "editor backup"
+
         tar -C ${MISO} -zcvf ${AT_BAK}/EDIT-${DAYS}.tar.gz editorImage
 }
-
 ############<common mariadbdump backup>############
 function mariadbdump {
         mysqldump -u${D_ID} -p${D_PW} --default-character-set utf8 $DB > ${AT_BAK}/${DB}-${DAYS}.sql
@@ -149,6 +158,10 @@ function rmBackup {
 ############<common config backup>############
 function configBackup {
         tar -C ${MISO} -zcvf ${AT_BAK}/CNFG-${DAYS}.tar.gz config-set
+}
+############<daemon backup>###################
+function daemonBackup {
+        tar -zcvf ${AT_BAK}/DAEMON-${DAYS}.tar.gz -C ${DEF} --exclude=logs/* miso_daemon
 }
 ################################################################
 #                            ing ..                            #
@@ -175,28 +188,35 @@ function webappsBackup {
 ############<KEY Create dir>############
 function addDir {
          ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
+
 }
 ############<KEY scp webapps send>############
 function scpWebappsSend {
         if [ $1 -eq 2 ];then
+
                 scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "webapps jump..."
         fi
+
 }
 function scpJavaSend {
         if [ $1 -eq 2 ];then
+
                 scp -P ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "java jump..."
         fi
+
 }
 function scpTomcatSend {
         if [ $1 -eq 2 ];then
+
                 scp -P ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "tomcat jump..."
         fi
+
 }
 
 ############<KEY scp webapps send>############
@@ -214,7 +234,6 @@ function checkRemote {
 ################################################################
 #                       sshpass Functions                      #
 ################################################################
-
 ############<sshpass Check>############
 function checkSshpass {
         if rpm -qa | grep -q sshpass; then
@@ -223,18 +242,22 @@ function checkSshpass {
                 echo "sshpass not exist"
                 exit
         fi
+
 }
 ############<sshpass Create dir>############
 function sshpassAddDir {
          sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "mkdir ${RMOTEPATH}/${DAYS}"
+
 }
 ############<sshpass scp webapps send>############
 function sshpassScpWebappsSend {
         if [ $1 -eq 2 ];then
+
                 sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${RMOTEPATH}
         else
                 echo "webapps jump..."
         fi
+
 }
 function sshpassScpJavaSend {
         if [ $1 -eq 2 ];then
@@ -243,6 +266,7 @@ function sshpassScpJavaSend {
         else
                 echo "java jump..."
         fi
+
 }
 function sshpassScpTomcatSend {
         if [ $1 -eq 2 ];then
@@ -251,6 +275,7 @@ function sshpassScpTomcatSend {
         else
                 echo "tomcat jump..."
         fi
+
 }
 ############<sshpass multi-param send>############
 function sshpassScpSend {
@@ -271,20 +296,25 @@ function sshpassCheckRemote {
 ############<WIN sshpass scp webapps send>############
 function scpWinWebappsSend {
         if [ $1 -eq 2 ];then
+
                 sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/WEBAPPS.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
         else
                 echo "webapps jump..."
         fi
+
 }
 function scpWinJavaSend {
         if [ $1 -eq 2 ];then
+
                 sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/JAVA.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
         else
                 echo "java jump..."
         fi
+
 }
 function scpWinTomcatSend {
         if [ $1 -eq 2 ];then
+
                 sshpass -p ${RMOTPW} scp -p ${RMOTEPORT} ${AT_BAK}/TOMCAT.tar.gz ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
         else
                 echo "tomcat jump..."
@@ -301,7 +331,6 @@ function WincheckRemote {
         sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "dir ${WINRMOTEPATH}" >> ${AT_BAK}/backupstatus.log
         echo "" >> ${AT_BAK}/backupstatus.log
 }
-
 ##############<Run>#################
 echo "RUN BACKCUP~"
 echo ${INDEX}
@@ -322,8 +351,15 @@ case ${INDEX} in
                 scpJavaSend ${RESULT_J}
                 scpTomcatSend ${RESULT_T}
                 scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                if [ ${DAEMON_USE} == 'Y' ];then
+                        daemonBackup
+                        scpSend ${AT_BAK}/DAEMON-${DAYS}.tar.gz
+                else
+                        echo "Damonbackup pass"
+                fi
                 checkRemote
                ;;
+
        1)
                echo "SSHPASS"
                #LINUX SSHPASS
@@ -341,6 +377,13 @@ case ${INDEX} in
                sshpassScpJavaSend ${RESULT_J}
                sshpassScpTomcatSend ${RESULT_T}
                sshpassScpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                if [ ${DAEMON_USE} == 'Y' ];then
+                        daemonBackup
+                        sshpassScpSend ${AT_BAK}/DAEMON-${DAYS}.tar.gz
+                else
+                        echo "Damonbackup pass"
+                fi
+
                sshpassCheckRemote
                ;;
        2)
@@ -359,7 +402,14 @@ case ${INDEX} in
                scpWinJavaSend ${RESULT_J}
                scpWinTomcatSend ${RESULT_T}
                scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
-               WincheckRemote 
+               if [ ${DAEMON_USE} == 'Y' ];then
+                        daemonBackup
+                        scpWinSend ${AT_BAK}/DAEMON-${DAYS}.tar.gz
+                else
+                        echo "Damonbackup pass"
+                fi
+
+               WincheckRemote
                ;;
         3)
                 echo "LOCAL"
@@ -371,11 +421,14 @@ case ${INDEX} in
                 webappsCheck
                 fileBackup
                 editorBackup
+                daemonBackup
                 mariadbdump
                 ;;
+
        *)
                echo "select INDEX config"
                exit
                ;;
 esac
 
+                                          
