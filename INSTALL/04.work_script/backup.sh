@@ -154,7 +154,7 @@ function mariadbdump {
 ############<common local backup rm>############
 function rmBackup {
         NOW=$(date +"%Y-%m-%d")
-        find ${AT_BAK}/* -mtime +${RM_DAY} -exec rm -rf {} \;
+        find ${AT_BAK}/* -mtime +${RM_DAY} -not -name "JAVA.tar.gz" -not -name "TOMCAT.tar.gz" -not -name "WEBAPPS.tar.gz" -exec rm -rf {} \;
 }
 ############<common config backup>############
 function configBackup {
