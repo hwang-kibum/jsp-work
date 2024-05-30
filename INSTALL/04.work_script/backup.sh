@@ -26,6 +26,7 @@ DEF='/data'
 MISO="${DEF}/miso"
 TOM="${DEF}/tomcat"
 JV="${DEF}/java"
+MARIA="${DEF}/mariadb"
 WEB="${MISO}/webapps"
 FILE="${MISO}/fileUpload"
 EDIT="${MISO}/editorImage"
@@ -163,6 +164,15 @@ function configBackup {
 function daemonBackup {
         tar -zcvf ${AT_BAK}/DAEMON-${DAYS}.tar.gz -C ${DEF} --exclude=logs/* miso_daemon
 }
+############<mariadb-backup>##################
+function mariaTotalBackup {
+        ${MARIA}/bin/mariadb-backup --backup --user=${D_ID} --password=${D_PW} --stream=${MARIA}/bin/xbstream 2> sql-mariadb-backup.log 
+}
+############<mariadb-backup Compression>##################
+function mariadbTotalBackupCompression {
+        ${MARIA}/bin/mariadb-backup --backup --user=${D_ID} --password=${D_PW} --stream=${MARIA}/bin/xbstream 2> sql-mariadb-backup.log | pigz -p 4 > ${AT_BAK}/SQL.gz 
+}
+
 ################################################################
 #                            ing ..                            #
 #                        rsync Functions                       #
