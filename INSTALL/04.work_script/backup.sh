@@ -154,7 +154,7 @@ function mariadbdump {
 ############<common local backup rm>############
 function rmBackup {
         NOW=$(date +"%Y-%m-%d")
-        find ${AT_BAK}/* -mtime +${RM_DAY} -exec rm -f {} \;
+        find ${AT_BAK}/* -mtime +${RM_DAY} -exec rm -rf {} \;
 }
 ############<common config backup>############
 function configBackup {
