@@ -368,6 +368,7 @@ case ${INDEX} in
                         echo "Damonbackup pass"
                 fi
                 checkRemote
+                rmBackup
                ;;
 
        1)
@@ -395,6 +396,7 @@ case ${INDEX} in
                 fi
 
                sshpassCheckRemote
+               rmBackup
                ;;
        2)
                echo "WIN"
@@ -420,6 +422,7 @@ case ${INDEX} in
                 fi
 
                WincheckRemote
+               rmBackup
                ;;
         3)
                 echo "LOCAL"
@@ -433,6 +436,7 @@ case ${INDEX} in
                 editorBackup
                 daemonBackup
                 mariadbdump
+                rmBackup
                 ;;
 
        *)
