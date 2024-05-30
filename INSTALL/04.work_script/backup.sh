@@ -121,8 +121,6 @@ function webappsCheck {
         else
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
                 VALUES=0
-                #echo $RESULT > ${DEF}/backup/$INODE
-                #tar -C ${MISO} -zcvf ${AT_BAK}/WEBAPPS.tar.gz webapps
         fi
         if [ ${RESULT} -eq ${VALUES} ];then
                 echo "webapps backup jump"
