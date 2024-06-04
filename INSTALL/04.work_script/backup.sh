@@ -264,10 +264,10 @@ function scpRSend {
 }
 ############<KEY send data check>############
 function checkRemote {
-        echo "${DAYS}" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
-        echo "" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
+        echo "${DAYS}" >> ${CH_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${CH_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${CH_BAK}/backupstatus.log
+        echo "" >> ${CH_BAK}/backupstatus.log
 }
 ################################################################
 #                       sshpass Functions                      #
@@ -325,10 +325,10 @@ function sshpassRScpSend {
 }
 ############<sshpass send data check>############
 function sshpassCheckRemote {
-        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
-        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
-        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
-        echo "" >> ${AT_BAK}/backupstatus.log
+        echo "${DAYS}" >> ${CH_BAK}/backupstatus.log
+        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${CH_BAK}/backupstatus.log
+        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${CH_BAK}/backupstatus.log
+        echo "" >> ${CH_BAK}/backupstatus.log
 
 }
 ################################################################
@@ -374,9 +374,9 @@ function scpRWinSend {
 
 ############<WIN send data check>#################
 function WincheckRemote {
-        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
-        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "dir ${WINRMOTEPATH}" >> ${AT_BAK}/backupstatus.log
-        echo "" >> ${AT_BAK}/backupstatus.log
+        echo "${DAYS}" >> ${CH_BAK}/backupstatus.log
+        sshpass -p ${RMOTPW} ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "dir ${WINRMOTEPATH}" >> ${CH_BAK}/backupstatus.log
+        echo "" >> ${CH_BAK}/backupstatus.log
 }
 ##############<Run>#################
 echo "RUN BACKCUP~"
