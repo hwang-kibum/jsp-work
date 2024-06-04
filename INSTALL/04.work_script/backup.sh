@@ -157,7 +157,7 @@ function fileSIBackup {
         else
                 mkdir -p ${FE_BAK}
         fi
-        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementFILE.list ${ORG_FILE} | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
+        tar -C ${MISO} -zcvf - -g ${CH_BAK}/incrementFILE.list ${ORG_FILE} | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
 }
 ############<common editorImage backup>############
 function editorBackup {
@@ -169,7 +169,7 @@ function editorBackup {
 function editorSIBackup {
         echo "editor backup"
 
-        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementEdit.list ${ORG_EDIT} | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
+        tar -C ${MISO} -zcvf - -g ${CH_BAK}/incrementEdit.list ${ORG_EDIT} | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
 }
 
 ############<common mariadbdump backup>############
