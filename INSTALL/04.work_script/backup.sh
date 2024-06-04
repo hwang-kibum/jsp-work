@@ -31,6 +31,7 @@ WEB="${MISO}/webapps"
 FILE="${MISO}/fileUpload"
 EDIT="${MISO}/editorImage"
 AT_BAK="${DEF}/backup/autobackup"
+FE_BAK="${AT_BAK}/FE-${DAYS}"
 ################################################################
 #                        Daemon Variables                      #
 ################################################################
@@ -136,8 +137,17 @@ function webappsCheck {
 ############<common fileUpload backup>############
 function fileBackup {
         echo "File backup"
-
         tar -C ${MISO} -zcvf ${AT_BAK}/FILE-${DAYS}.tar.gz fileUpload
+}
+############<common split & increment fileUpload backup>############
+function fileSIBackup {
+        echo "split & increment File backup"
+        if [ -d ${FE_BAK} ];then
+                echo "${FE_BAK} exist"
+        else
+                mkdir -p ${FE_BAK}
+        fi
+        tar -C ${MISO} -zcvfp - -g ${AT_BAK}/incrementFILE.list fileUpload | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
 }
 ############<common editorImage backup>############
 function editorBackup {
@@ -145,6 +155,13 @@ function editorBackup {
 
         tar -C ${MISO} -zcvf ${AT_BAK}/EDIT-${DAYS}.tar.gz editorImage
 }
+############<common split & increment editorImage backup>############
+function editorSIBackup {
+        echo "editor backup"
+
+        tar -C ${MISO} -zcvfp - -g ${AT_BAK}/incrementEdit.list fileUpload | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
+}
+
 ############<common mariadbdump backup>############
 function mariadbdump {
         mysqldump -u${D_ID} -p${D_PW} --default-character-set utf8 $DB > ${AT_BAK}/${DB}-${DAYS}.sql
@@ -231,7 +248,10 @@ function scpTomcatSend {
 function scpSend {
         scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
-
+############<KEY scp -r webapps send>############
+function scpRSend {
+        scp -P ${RMOTEPORT} -r $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
+}
 ############<KEY send data check>############
 function checkRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
@@ -289,6 +309,10 @@ function sshpassScpTomcatSend {
 function sshpassScpSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
+############<sshpass multi-param -r send>############
+function sshpassRScpSend {
+        sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} -r $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
+}
 ############<sshpass send data check>############
 function sshpassCheckRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
@@ -333,6 +357,11 @@ function scpWinTomcatSend {
 function scpWinSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
 }
+############<WIN sshpass scp -r multi-param send>############
+function scpRWinSend {
+        sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} -r $@ ${RMOTID}@${RMOTIP}:${WINRMOTEPATH}
+}
+
 ############<WIN send data check>#################
 function WincheckRemote {
         echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
@@ -352,13 +381,24 @@ case ${INDEX} in
                 javaBackup
                 tomcatBackup
                 webappsCheck
-                fileBackup
-                editorBackup
+                if [ ${SPLIT} == 'N' ];then
+                        fileBackup
+                        editorBackup
+                else
+                        fileSIBackup
+                        editorSIBackup
+                fi
                 mariadbdump
                 scpWebappsSend ${RESULT}
                 scpJavaSend ${RESULT_J}
                 scpTomcatSend ${RESULT_T}
-                scpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                if [ ${SPLIT} == 'N' ];then
+                        scpSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                else
+                        scpSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                        scpRSend ${FE_BAK}
+                fi
+                
                 if [ ${DAEMON_USE} == 'Y' ];then
                         daemonBackup
                         scpSend ${AT_BAK}/DAEMON-${DAYS}.tar.gz
@@ -379,13 +419,24 @@ case ${INDEX} in
                javaBackup
                tomcatBackup
                webappsCheck
-               fileBackup
-               editorBackup
+                if [ ${SPLIT} == 'N' ];then
+                        fileBackup
+                        editorBackup
+                else
+                        fileSIBackup
+                        editorSIBackup
+                fi
                mariadbdump
                sshpassScpWebappsSend ${RESULT}
                sshpassScpJavaSend ${RESULT_J}
                sshpassScpTomcatSend ${RESULT_T}
-               sshpassScpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                if [ ${SPLIT} == 'N' ];then
+                        sshpassScpSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                else
+                        sshpassScpSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                        sshpassScpRSend ${FE_BAK}
+                fi
+               
                 if [ ${DAEMON_USE} == 'Y' ];then
                         daemonBackup
                         sshpassScpSend ${AT_BAK}/DAEMON-${DAYS}.tar.gz
@@ -405,13 +456,23 @@ case ${INDEX} in
                javaBackup
                tomcatBackup
                webappsCheck
-               fileBackup
-               editorBackup
+                if [ ${SPLIT} == 'N' ];then
+                        fileBackup
+                        editorBackup
+                else
+                        fileSIBackup
+                        editorSIBackup
+                fi
                mariadbdump
                scpWinWebappsSend ${RESULT}
                scpWinJavaSend ${RESULT_J}
                scpWinTomcatSend ${RESULT_T}
-               scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                if [ ${SPLIT} == 'N' ];then
+                       scpWinSend ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                else
+                       scpWinSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                       scpRWinSend ${FE_BAK}
+                fi
                if [ ${DAEMON_USE} == 'Y' ];then
                         daemonBackup
                         scpWinSend ${AT_BAK}/DAEMON-${DAYS}.tar.gz
@@ -430,8 +491,13 @@ case ${INDEX} in
                 javaBackup
                 tomcatBackup
                 webappsCheck
-                fileBackup
-                editorBackup
+                if [ ${SPLIT} == 'N' ];then
+                        fileBackup
+                        editorBackup
+                else
+                        fileSIBackup
+                        editorSIBackup
+                fi
                 daemonBackup
                 mariadbdump
                 rmBackup
