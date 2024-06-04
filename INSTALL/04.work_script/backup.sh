@@ -320,7 +320,7 @@ function sshpassScpSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
 ############<sshpass multi-param -r send>############
-function sshpassRScpSend {
+function sshpassScpRSend {
         sshpass -p ${RMOTPW} scp -P ${RMOTEPORT} -r $@ ${RMOTID}@${RMOTIP}:${RMOTEPATH}/${DAYS}
 }
 ############<sshpass send data check>############
