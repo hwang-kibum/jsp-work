@@ -77,10 +77,10 @@ function autoBackupPath {
 ############<common java backup>############
 function javaBackup {
         echo "java backup"
-        if [ -e ${DEF}/backup/${CH_BAK}/${JAVER} ];then
+        if [ -e ${CH_BAK}/${JAVER} ];then
                 echo "${JAVER} exist file"
                 JAV_TMP=$(md5sum ${JV}/bin/java | awk '{ print $1}')
-                J_TMP=$(cat ${DEF}/backup/${CH_BAK}/${JAVER})
+                J_TMP=$(cat ${CH_BAK}/${JAVER})
         else
                 JAV_TMP=$(md5sum ${JV}/bin/java | awk '{ print $1}')
                 J_TMP=0
@@ -89,7 +89,7 @@ function javaBackup {
                 echo "java backup jump"
                 RESULT_J=1
         else
-                echo ${JAV_TMP} > ${DEF}/backup/${CH_BAK}/${JAVER}
+                echo ${JAV_TMP} > ${CH_BAK}/${JAVER}
                 rm -rf ${AT_BAK}/JAVA.tar.gz
                 tar -C ${DEF} -zcvf ${AT_BAK}/JAVA.tar.gz java
                 RESULT_J=2
@@ -98,10 +98,10 @@ function javaBackup {
 ############<common tomcat backup>############
 function tomcatBackup {
         echo "tomcat backup"
-        if [ -e ${DEF}/backup/${CH_BAK}/${TOMVER} ];then
+        if [ -e ${CH_BAK}/${TOMVER} ];then
                 echo "${TOMVER} exist file"
                 TOM_TMP=$(md5sum ${TOM}/conf/server.xml | awk '{ print $1 }')
-                T_TMP=$(cat ${DEF}/backup/${CH_BAK}/${TOMVER})
+                T_TMP=$(cat ${CH_BAK}/${TOMVER})
         else
                 TOM_TMP=$(md5sum ${TOM}/conf/server.xml | awk '{ print $1 }')
                 T_TMP=0
@@ -110,7 +110,7 @@ function tomcatBackup {
                 echo "TOMCAT backup jump"
                 RESULT_T=1
         else
-                echo ${TOM_TMP} > ${DEF}/backup/${CH_BAK}/${TOMVER}
+                echo ${TOM_TMP} > ${CH_BAK}/${TOMVER}
                 rm -rf ${AT_BAK}/TOMCAT.tar.gz
                 tar -C ${DEF} --exclude=tomcat/logs/* --exclude=tomcat/work/Catalina/localhost/* -zcvf ${AT_BAK}/TOMCAT.tar.gz tomcat
                 RESULT_T=2
@@ -124,10 +124,10 @@ function webappsCheck {
                 #값 같으면 : RESULT =1
                 #값 다르면 : RESULT=2 압축
         #
-        if [ -e ${DEF}/backup/${CH_BAK}/${INODE} ];then
+        if [ -e ${CH_BAK}/${INODE} ];then
                 echo "${INODE} exist file"
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
-                VALUES=$(cat ${DEF}/backup/${CH_BAK}/${INODE})
+                VALUES=$(cat ${CH_BAK}/${INODE})
 
         else
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
@@ -137,7 +137,7 @@ function webappsCheck {
                 echo "webapps backup jump"
                 RESULT=1
         else
-                echo ${RESULT} > ${DEF}/backup/${CH_BAK}/${INODE}
+                echo ${RESULT} > ${CH_BAK}/${INODE}
                 rm -rf ${AT_BAK}/WEBAPPS.tar.gz
                 tar -C ${MISO} -zcvf ${AT_BAK}/WEBAPPS.tar.gz webapps
                 RESULT=2
@@ -264,10 +264,10 @@ function scpRSend {
 }
 ############<KEY send data check>############
 function checkRemote {
-        echo "${DAYS}" >> ${AT_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/backupstatus.log
-        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/backupstatus.log
-        echo "" >> ${AT_BAK}/backupstatus.log
+        echo "${DAYS}" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
+        ssh -P${RMOTEPORT} ${RMOTID}@${RMOTIP} "ls -ahil ${RMOTEPATH}/${DAYS}" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
+        echo "" >> ${AT_BAK}/${CH_BAK}/backupstatus.log
 }
 ################################################################
 #                       sshpass Functions                      #
