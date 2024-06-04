@@ -23,14 +23,18 @@ SIZE="1024m"
 #                        PATH Variables                        #
 ################################################################
 DEF='/data'
+ORG_FILE="fileUpload"
+ORG_EDIT="editorImage"
 MISO="${DEF}/miso"
 TOM="${DEF}/tomcat"
 JV="${DEF}/java"
 MARIA="${DEF}/mariadb"
 WEB="${MISO}/webapps"
-FILE="${MISO}/fileUpload"
-EDIT="${MISO}/editorImage"
-AT_BAK="${DEF}/backup/autobackup"
+FILE="${MISO}/${ORG_FILE}"
+EDIT="${MISO}/${ORG_EDIT}"
+BAK="${DEF}/backup"
+CH_BAK="${BAK}/check"
+AT_BAK="${BAK}/autobackup"
 FE_BAK="${AT_BAK}/FE-${DAYS}"
 ################################################################
 #                        Daemon Variables                      #
@@ -62,6 +66,11 @@ function autoBackupPath {
                 echo "${AT_BAK} exist"
         else
                 mkdir -p ${AT_BAK}
+        fi
+        if [ -d ${CH_BAK} ];then
+                echo "${CH_BAK} exist"
+        else
+                mkdir -p ${CH_BAK}
         fi
 }
 ############<common java backup>############
@@ -147,7 +156,7 @@ function fileSIBackup {
         else
                 mkdir -p ${FE_BAK}
         fi
-        tar -C ${MISO} -zcvfp - -g ${AT_BAK}/incrementFILE.list fileUpload | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
+        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementFILE.list fileUpload | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
 }
 ############<common editorImage backup>############
 function editorBackup {
@@ -159,7 +168,7 @@ function editorBackup {
 function editorSIBackup {
         echo "editor backup"
 
-        tar -C ${MISO} -zcvfp - -g ${AT_BAK}/incrementEdit.list fileUpload | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
+        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementEdit.list editorImage | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
 }
 
 ############<common mariadbdump backup>############
