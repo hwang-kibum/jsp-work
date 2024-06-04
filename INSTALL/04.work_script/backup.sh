@@ -39,7 +39,8 @@ FE_BAK="${AT_BAK}/FE-${DAYS}"
 ################################################################
 #                        Daemon Variables                      #
 ################################################################
-DAEMON_PATH="${DEF}/miso_daemon"
+ORG_DEAMON="miso_daemon"
+DAEMON_PATH="${DEF}/${ORG_DEAMON}"
 DAEMON_USE='N'
 ################################################################
 #                       DB/ID/PW Variables                     #
@@ -76,10 +77,10 @@ function autoBackupPath {
 ############<common java backup>############
 function javaBackup {
         echo "java backup"
-        if [ -e ${DEF}/backup/${JAVER} ];then
+        if [ -e ${DEF}/backup/${CH_BAK}/${JAVER} ];then
                 echo "${JAVER} exist file"
                 JAV_TMP=$(md5sum ${JV}/bin/java | awk '{ print $1}')
-                J_TMP=$(cat ${DEF}/backup/${JAVER})
+                J_TMP=$(cat ${DEF}/backup/${CH_BAK}/${JAVER})
         else
                 JAV_TMP=$(md5sum ${JV}/bin/java | awk '{ print $1}')
                 J_TMP=0
@@ -88,7 +89,7 @@ function javaBackup {
                 echo "java backup jump"
                 RESULT_J=1
         else
-                echo ${JAV_TMP} > ${DEF}/backup/${JAVER}
+                echo ${JAV_TMP} > ${DEF}/backup/${CH_BAK}/${JAVER}
                 rm -rf ${AT_BAK}/JAVA.tar.gz
                 tar -C ${DEF} -zcvf ${AT_BAK}/JAVA.tar.gz java
                 RESULT_J=2
@@ -97,10 +98,10 @@ function javaBackup {
 ############<common tomcat backup>############
 function tomcatBackup {
         echo "tomcat backup"
-        if [ -e ${DEF}/backup/${TOMVER} ];then
+        if [ -e ${DEF}/backup/${CH_BAK}/${TOMVER} ];then
                 echo "${TOMVER} exist file"
                 TOM_TMP=$(md5sum ${TOM}/conf/server.xml | awk '{ print $1 }')
-                T_TMP=$(cat ${DEF}/backup/${TOMVER})
+                T_TMP=$(cat ${DEF}/backup/${CH_BAK}/${TOMVER})
         else
                 TOM_TMP=$(md5sum ${TOM}/conf/server.xml | awk '{ print $1 }')
                 T_TMP=0
@@ -109,7 +110,7 @@ function tomcatBackup {
                 echo "TOMCAT backup jump"
                 RESULT_T=1
         else
-                echo ${TOM_TMP} > ${DEF}/backup/${TOMVER}
+                echo ${TOM_TMP} > ${DEF}/backup/${CH_BAK}/${TOMVER}
                 rm -rf ${AT_BAK}/TOMCAT.tar.gz
                 tar -C ${DEF} --exclude=tomcat/logs/* --exclude=tomcat/work/Catalina/localhost/* -zcvf ${AT_BAK}/TOMCAT.tar.gz tomcat
                 RESULT_T=2
@@ -123,10 +124,10 @@ function webappsCheck {
                 #값 같으면 : RESULT =1
                 #값 다르면 : RESULT=2 압축
         #
-        if [ -e ${DEF}/backup/${INODE} ];then
+        if [ -e ${DEF}/backup/${CH_BAK}/${INODE} ];then
                 echo "${INODE} exist file"
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
-                VALUES=$(cat ${DEF}/backup/${INODE})
+                VALUES=$(cat ${DEF}/backup/${CH_BAK}/${INODE})
 
         else
                 RESULT=$(ls -ahil ${MISO} | grep webapps | head -n1 | awk '{print $1}')
@@ -136,7 +137,7 @@ function webappsCheck {
                 echo "webapps backup jump"
                 RESULT=1
         else
-                echo ${RESULT} > ${DEF}/backup/${INODE}
+                echo ${RESULT} > ${DEF}/backup/${CH_BAK}/${INODE}
                 rm -rf ${AT_BAK}/WEBAPPS.tar.gz
                 tar -C ${MISO} -zcvf ${AT_BAK}/WEBAPPS.tar.gz webapps
                 RESULT=2
@@ -146,7 +147,7 @@ function webappsCheck {
 ############<common fileUpload backup>############
 function fileBackup {
         echo "File backup"
-        tar -C ${MISO} -zcvf ${AT_BAK}/FILE-${DAYS}.tar.gz fileUpload
+        tar -C ${MISO} -zcvf ${AT_BAK}/FILE-${DAYS}.tar.gz ${ORG_FILE}
 }
 ############<common split & increment fileUpload backup>############
 function fileSIBackup {
@@ -156,19 +157,19 @@ function fileSIBackup {
         else
                 mkdir -p ${FE_BAK}
         fi
-        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementFILE.list fileUpload | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
+        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementFILE.list ${ORG_FILE} | split -b ${SIZE} - ${FE_BAK}/FILE-${DAYS}.tar.gz.part-
 }
 ############<common editorImage backup>############
 function editorBackup {
         echo "editor backup"
 
-        tar -C ${MISO} -zcvf ${AT_BAK}/EDIT-${DAYS}.tar.gz editorImage
+        tar -C ${MISO} -zcvf ${AT_BAK}/EDIT-${DAYS}.tar.gz ${ORG_EDIT}
 }
 ############<common split & increment editorImage backup>############
 function editorSIBackup {
         echo "editor backup"
 
-        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementEdit.list editorImage | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
+        tar -C ${MISO} -zcvfp - -g ${CH_BAK}/incrementEdit.list ${ORG_EDIT} | split -b ${SIZE} - ${FE_BAK}/EDIT-${DAYS}.tar.gz.part-
 }
 
 ############<common mariadbdump backup>############
@@ -186,7 +187,7 @@ function configBackup {
 }
 ############<daemon backup>###################
 function daemonBackup {
-        tar -zcvf ${AT_BAK}/DAEMON-${DAYS}.tar.gz -C ${DEF} --exclude=logs/* miso_daemon
+        tar -zcvf ${AT_BAK}/DAEMON-${DAYS}.tar.gz -C ${DEF} --exclude=logs/* ${ORG_DAEMON}
 }
 ############<mariadb-backup>##################
 function mariaTotalBackup {
