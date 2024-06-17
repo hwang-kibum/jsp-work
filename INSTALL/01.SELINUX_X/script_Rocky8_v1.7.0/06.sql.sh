@@ -122,5 +122,6 @@ echo " " >> 07.add.sql
 
 echo "delete from mysql.db where db='test';" >> 07.add.sql
 echo "delete from mysql.db where db='test\\\\_%';" >> 07.add.sql
+echo "update property set prop_value=38000000 where prop_nm='header.alram.polling.interval';" >> 07.add.sql
 
 echo "07.add.sql"
