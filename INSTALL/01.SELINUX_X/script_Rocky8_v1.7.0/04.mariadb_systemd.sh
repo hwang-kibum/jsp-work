@@ -24,10 +24,14 @@ then
         ln -s /usr/lib64/libncursesw.so.6.2 /usr/lib64/libncursesw.so.5
         ln -s /usr/lib64/libform.so.6.2 /usr/lib64/libform.so.5
         ln -s /usr/lib64/libtinfo.so.6.2 /usr/lib64/libtinfo.so.5
+        ln -s /usr/lib64/libncursesw.so.6.2 /usr/lib64/libncurses.so.5
+
  #심볼릭 링크 확인.
         ls -ahil /usr/lib64/libncursesw.so.5
         ls -ahil /usr/lib64/libform.so.5
         ls -ahil /usr/lib64/libtinfo.so.5
+        ls -ahil /usr/lib64/libncurses.so.5
+
 else
         echo "not redhat linux ..."
         str=$(cat /etc/*-release | grep PRETTY_NAME | awk '{print $2}')
