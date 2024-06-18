@@ -31,7 +31,6 @@ else
   	cp -arp ${DATA}/miso/webapps/web/plugins/namo ${DATA}/miso/editorImage
 	sync;sync;sync;
 	echo "Start 06.sql.sh"
-	exit
 fi
 
 
