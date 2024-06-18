@@ -19,13 +19,13 @@ LOGROTAT="/etc/logroatate.d"
 #jdk variable
 JDK_PATH="${INSTALL}jdk"
 JAVA="${DATA}/java"
-JDK="jdk-8u391-linux-x64"
+JDK="jdk-8u411-linux-x64"
 JTAR="tar.gz"
-JDK_V="jdk1.8.0_391"
+JDK_V="jdk1.8.0_411"
 ############################################
 #tomcat variable
 #버전 정보 업그레이드시 파일명 수정.
-TOMCAT="apache-tomcat-9.0.88"
+TOMCAT="apache-tomcat-9.0.89"
 TCOMP=".tar.gz"
 TOMCAT_DIR="tomcat/"
 #TOMCAT_DIR_2="tomcat/"
@@ -38,7 +38,7 @@ TOMCAT_SET="${DATA}/miso/config-set/tomcat"
 #mariadb variable
 MARIADB_PATH="${DATA}/"
 #버전 정보 업그레이드시 파일명 수정.
-MARIA="mariadb-10.11.7-linux-systemd-x86_64"
+MARIA="mariadb-10.11.8-linux-systemd-x86_64"
 MCOMP=".tar.gz"
 #MARIA_DATA="/data/mariadbData/"
 MARIA_TMP="${DATA}/mariadb/tmp/"
