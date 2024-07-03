@@ -183,6 +183,7 @@ echo "#
 
 [client]
 default-character-set = utf8mb4
+#socket = ${DATA}/mariadb/tmp/mysql.sock
 
 [mysql]
 default-character-set = utf8mb4
@@ -200,6 +201,13 @@ innodb_buffer_pool_size = 12G
 skip-host-cache
 skip-name-resolve
 log-error = ${MARIADB_LOGS}/error.err
+max_heap_table_size = 268435456
+tmp_table_size = 268435456
+#tmpdir = /tmp:${DATA}/mariadb/tmp
+#socket = ${DATA}/mariadb/tmp/mysql.sock
+
+
+
 
 #simple_password_check = ON
 #simple_password_check_minimal_length=9
