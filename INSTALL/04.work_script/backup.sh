@@ -510,7 +510,11 @@ case ${INDEX} in
                         fileSIBackup
                         editorSIBackup
                 fi
-                daemonBackup
+                if [ ${DAEMON_USE} == 'Y' ];then
+                        daemonBackup
+                else
+                        echo "Damonbackup pass"
+                fi
                 mariadbdump
                 rmBackup
                 ;;
