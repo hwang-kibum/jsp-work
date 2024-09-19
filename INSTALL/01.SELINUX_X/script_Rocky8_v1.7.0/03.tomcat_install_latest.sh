@@ -26,8 +26,9 @@ sed -i '154d' ${TOMCAT_CONF}server.xml
 sed -i '154 i\\t<Context path="/" docBase="'"${DATA}"'/miso/webapps" reloadable="true"/>' ${TOMCAT_CONF}server.xml
 sed -i '155 i\\t<Context path="/editorImage" docBase="'"${DATA}"'/miso/editorImage" reloadable="true"/>' ${TOMCAT_CONF}server.xml
 END
-sed -i '163 i\\t<Context path="/" docBase="'"${DATA}"'/miso/webapps" reloadable="true"/>' ${DATA}/tomcat/conf/server.xml
-sed -i '164 i\\t<Context path="/editorImage" docBase="'"${DATA}"'/miso/editorImage" reloadable="true"/>' ${DATA}/tomcat/conf/server.xml
+sed -i '165 i\\t<Context path="/" docBase="'"${DATA}"'/miso/webapps" reloadable="true"/>' ${DATA}/tomcat/conf/server.xml
+sed -i '166 i\\t<Context path="/editorImage" docBase="'"${DATA}"'/miso/editorImage" reloadable="true"/>' ${DATA}/tomcat/conf/server.xml
+
 sed -i 's|pattern="%h %l %u %t &quot;%r&quot; %s %b" />|pattern="combined" resolveHosts="false" />|' ${DATA}/tomcat/conf/server.xml
 sed -i 's|unpackWARs="true" autoDeploy="true"|unpackWARs="false" autoDeploy="false"|' ${DATA}/tomcat/conf/server.xml 
 sed -i 's|maxParameterCount="1000"|maxParameterCount="1000" URIEncoding="UTF-8" enableLookups="false" server="server"|' ${DATA}/tomcat/conf/server.xml
@@ -48,7 +49,7 @@ chmod 755 ${DATA}/tomcat/bin/catalina.sh
 
 sed -i '125d' ${DATA}/tomcat/bin/catalina.sh
 sed -i '125 i\JAVA_HOME="'"${DATA}"'/java/"' ${DATA}/tomcat/bin/catalina.sh
-sed -i '126 i\JAVA_OPTS="-Xms1024m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m -XX:NewSize=400m -XX:MaxNewSize=400m -XX:SurvivorRatio=4"' ${DATA}/tomcat/bin/catalina.sh
+sed -i '126 i\JAVA_OPTS="-Xms1024m -Xmx2048m -XX:NewSize=400m -XX:MaxNewSize=400m -XX:SurvivorRatio=4"' ${DATA}/tomcat/bin/catalina.sh
 sed -i '127 i\CATALINA_OUT="'"${DATA}"'/logs/tomcat/catalina.out"' ${DATA}/tomcat/bin/catalina.sh
 ls -ahil ${DATA}/tomcat/bin/catalina.sh
 
