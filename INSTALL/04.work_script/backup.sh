@@ -405,7 +405,7 @@ case ${INDEX} in
                 scpJavaSend ${RESULT_J}
                 scpTomcatSend ${RESULT_T}
                 if [ ${SPLIT} == 'N' ];then
-                        scpSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
+                        scpSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz ${AT_BAK}/EDIT-${DAYS}.tar.gz ${AT_BAK}/FILE-${DAYS}.tar.gz
                 else
                         scpSend ${AT_BAK}/${DB}-${DAYS}.sql ${AT_BAK}/CNFG-${DAYS}.tar.gz
                         scpRSend ${FE_BAK}
