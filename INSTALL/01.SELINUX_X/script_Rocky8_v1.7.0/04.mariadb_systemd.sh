@@ -206,6 +206,22 @@ tmp_table_size = 268435456
 #tmpdir = /tmp:${DATA}/mariadb/tmp
 #socket = ${DATA}/mariadb/tmp/mysql.sock
 
+#max_password_errors=5
+#default_password_lifetime=1
+#wait_timeout=1800
+#interactive_timeout=1800
+
+#server_audit_output_type = file
+#server_audit_query_log_limit = 1024
+#server_audit_syslog_ident = ${DATA}/logs/mariadb/mysql-server_auditing
+#server_audit_logging = 1
+#server_audit_file_path = ${DATA}/logs/mariadb/server_audit.log
+#server_audit_events = query_ddl,query_dcl,query_dml_no_select
+#server_audit_file_rotate_size = 1000000
+#server_audit_file_rotations = 10
+#plugin_dir=${DATA}/mariadb/lib/plugin
+#plugin_load_add=auth_ed25519
+#default_authentication_plugin=ed25519
 
 
 
