@@ -203,6 +203,9 @@ skip-name-resolve
 log-error = ${MARIADB_LOGS}/error.err
 max_heap_table_size = 268435456
 tmp_table_size = 268435456
+
+#log-bin=${DATA}/mariadb/mysql-bin #binnary log
+#expire_logs_days=50;              #binnary log expire 
 #tmpdir = /tmp:${DATA}/mariadb/tmp
 #socket = ${DATA}/mariadb/tmp/mysql.sock
 
