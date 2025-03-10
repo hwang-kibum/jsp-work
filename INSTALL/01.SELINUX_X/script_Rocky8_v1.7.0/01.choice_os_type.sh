@@ -84,7 +84,7 @@ else
 	if [ -z ${TMP_USER} ];
 	then
 		echo "Create su able id"
-		useradd ${SU_USER}
+		useradd -c "su able id" ${SU_USER}
 		passwd ${SU_USER}
 	else
 		echo "/home directory exist..."
@@ -99,7 +99,7 @@ else
 	if [ -z ${TMP_USER} ];
 	then
 		echo "create miso service id"
-		useradd ${SERV_USER}
+		useradd -c "miso service" ${SERV_USER}
 		passwd ${SERV_USER}
 	else
 		echo "/home directory exist..."
