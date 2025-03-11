@@ -136,7 +136,7 @@ Restart=on-abort
 RestartSec=5s
 UMask=007
 PrivateTmp=false
-TimeoutStartSec=0
+TimeoutStartSec=900
 TimeoutStopSec=900
 LimitNOFILE=32768" >> ${INSTALL}miso_conf/mariadb.service 
 
@@ -264,7 +264,7 @@ ps -ef | grep mariadb
 sync;sync;sync;
 
 
-systemd-run systemctl restart mariadb
+systemctl restart mariadb
 
 #DB Permission
 echo " "
