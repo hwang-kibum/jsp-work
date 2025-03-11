@@ -112,6 +112,7 @@ Alias=mysqld.service
 
 [Service]
 Type=notify
+NotifyAccess=all
 PrivateNetwork=false
 User=${MY_USER}
 Group=${MY_USER}
