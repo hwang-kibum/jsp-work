@@ -82,6 +82,10 @@ sed -i '/^#/d' ${MARIA_HOME}/support-files/systemd/mariadb.service
   # 공백제거
 sed -i '/^\s*$/d' ${MARIA_HOME}/support-files/systemd/mariadb.service 
 
+ # NotifyAccess 수정.
+sed -i '/^Type=notify/ a NotifyAccess=all' /usr/lib/systemd/system/mariadb.service
+
+
   # ProtectHome=true-> false
 sed -i 's/ProtectHome=true/ProtectHome=false/' ${MARIA_HOME}/support-files/systemd/mariadb.service
   # 경로 변경
