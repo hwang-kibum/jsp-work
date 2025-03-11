@@ -89,7 +89,7 @@ sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/m
 sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 sed -i 's|/data/mariadb/data|/data/mariadb/mariadbData|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 sed -i 's|/data/mariadb/bin/mariadbd|/data/mariadb/bin/mariadbd-safe|' ${MARIA_HOME}/support-files/systemd/mariadb.service
-sed -i 's|TimeoutStartSec=900|TimeoutStartSec=0|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+#sed -i 's|TimeoutStartSec=900|TimeoutStartSec=0|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 
 
 cp -arp ${MARIA_HOME}/support-files/systemd/mariadb.service ${MARIADB_SET}
