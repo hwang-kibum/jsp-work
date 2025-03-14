@@ -89,10 +89,10 @@ sed -i '/^Type=notify/ a NotifyAccess=all' ${MARIA_HOME}/support-files/systemd/m
   # ProtectHome=true-> false
 sed -i 's/ProtectHome=true/ProtectHome=false/' ${MARIA_HOME}/support-files/systemd/mariadb.service
   # 경로 변경
-sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
-sed -i 's|/usr/local/mysql|/data/mariadb|' ${MARIA_HOME}/support-files/systemd/mariadb.service
-sed -i 's|/data/mariadb/data|/data/mariadb/mariadbData|' ${MARIA_HOME}/support-files/systemd/mariadb.service
-sed -i 's|/data/mariadb/bin/mariadbd|/data/mariadb/bin/mariadbd-safe|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|/usr/local/mysql|'${MARIA_HOME}'|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|/usr/local/mysql|'${MARIA_HOME}'|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|'${MARIA_HOME}'/data|'${MARIA_HOME}'/mariadbData|' ${MARIA_HOME}/support-files/systemd/mariadb.service
+sed -i 's|'${MARIA_HOME}'/bin/mariadbd|'${MARIA_HOME}'/bin/mariadbd-safe|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 #sed -i 's|TimeoutStartSec=900|TimeoutStartSec=0|' ${MARIA_HOME}/support-files/systemd/mariadb.service
 
 
