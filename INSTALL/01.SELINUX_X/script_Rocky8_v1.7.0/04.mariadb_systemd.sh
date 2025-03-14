@@ -268,8 +268,8 @@ chown mysql:mysql -R ${MARIADB_LOGS}
 ps -ef | grep mariadb
 sync;sync;sync;
 
-
-systemctl restart mariadb
+systemctl stop mariadb
+systemctl start mariadb
 
 #DB Permission
 echo " "
